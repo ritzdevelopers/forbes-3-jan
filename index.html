@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAB LUXE Residences, Serviced Luxury Homes, Greater Noida West</title>
+    <meta name="description"
+        content="AQI-managed indoor-outdoor living, serviced residences, wellness-led luxury and curated amenities in Sector 4, Greater Noida West. Executed by NBCC and monitored under Supreme Court oversight.">
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- GSAP Core Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+    <!-- GSAP ScrollTrigger Plugin -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <!-- Lenis Smooth Scroll -->
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+
+<body>
+    <!-- Top Header  -->
+    <div class="w-full bg-black text-white flex justify-end items-end pr-4 xl:pr-20 py-2 hidden">
+        <ul
+            class="flex justify-center items-center gap-4 md:gap-8 font-[600] text-[11px] md:text-[13px] font-open-sans">
+            <li class="hover:text-[#BF4423] cursor-pointer">Home</li>
+            <li class="hover:text-[#BF4423] cursor-pointer">About Us</li>
+            <li class="hover:text-[#BF4423] cursor-pointer">Blogs</li>
+            <li class="hover:text-[#BF4423] cursor-pointer">Contact Us</li>
+        </ul>
+    </div>
+
+    <!-- Fixed Position Main Header Navbar -->
+    <div id="main-navbar"
+        class="w-full flex justify-between  absolute top-0 left-0 z-50 pr-4 xl:pr-20 xl:pl-10 transition-all duration-300 py-2 px-4">
+        <!-- Left Side Logo Container  -->
+        <div class="flex items-center md:w-[202px] w-[126px] h-auto">
+            <!-- By DEfault It Wil Show  -->
+            <img id="default-logo" src="img/logo/white-logo1.png" alt="logo" class=" transition-opacity duration-300" />
+
+            <!-- It Will SHow After Scroll  -->
+            <img id="scroll-logo" src="img/logo/white-logo2.png" alt="logo"
+                class=" overflow-hidden transition-opacity duration-300 hidden w-[156px]" />
+        </div>
+
+        <!-- Desktop Navigation Links Container  -->
+        <div class="hidden lg:block pt-4">
+            <ul
+                class="flex justify-center items-center gap-8  text-white font-[700] text-[13px] xl:text-[15px] font-open-sans">
+                <li class="hover:text-[#BF4423] cursor-pointer"><a href="#curated-amenities">Curated Amenities</a></li>
+                <li class="hover:text-[#BF4423] cursor-pointer"><a href="#location">Location</a></li>
+
+                <li class="hover:text-[#BF4423] cursor-pointer"><a href="#layouts">Layouts</a></li>
+
+                <button
+                    class="enquiry-popup-trigger w-[180px] xl:w-[137px] h-[38px] xl:h-[43px] bg-[#CF4422] text-white font-[600] text-[11px] xl:text-[13px] rounded-[4px] font-[700] xl:text-[15px] hover:bg-[#BF4423] cursor-pointer">
+                    Get in Touch
+                </button>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <button id="mobile-menu-btn" class="lg:hidden text-white z-50 relative" aria-label="Toggle menu">
+            <!-- Menu Icon SVG -->
+            <svg id="menu-icon" class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16">
+                </path>
+            </svg>
+            <!-- Close Icon SVG -->
+            <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+    </div>
+
+    <!-- Mobile Menu Slider -->
+    <div id="mobile-menu" class="fixed top-0 left-0 w-full h-full bg-white z-50 hidden">
+        <div class="w-full h-full flex flex-col justify-center items-center px-8">
+            <ul class="flex flex-col justify-center items-center gap-8 text-black">
+                <li class="mobile-menu-item">
+                    <a href="#curated-amenities"
+                        class="text-2xl md:text-3xl font-[700] font-open-sans hover:text-[#BF4423] cursor-pointer transition-colors">
+                        Curated Amenities
+                    </a>
+                </li>
+                <li class="mobile-menu-item">
+                    <a href="#location"
+                        class="text-2xl md:text-3xl font-[700] font-open-sans hover:text-[#BF4423] cursor-pointer transition-colors">
+                        Location
+                    </a>
+                </li>
+                <li class="mobile-menu-item">
+                    <a href="#layouts"
+                        class="text-2xl md:text-3xl font-[700] font-open-sans hover:text-[#BF4423] cursor-pointer transition-colors">
+                        Layouts
+                    </a>
+                </li>
+
+                <li class="mobile-menu-item">
+                    <button
+                        class="enquiry-popup-trigger w-[280px] md:w-[320px] h-[50px] md:h-[60px] bg-[#CF4422] text-white font-[600] text-[16px] md:text-[18px] rounded-[4px] hover:bg-[#BF4423] cursor-pointer transition-colors">
+                        Get in Touch
+                    </button>
+                </li>
+            </ul>
+            <!-- Close Button at Bottom -->
+            <button id="mobile-menu-close-btn"
+                class="mobile-menu-item mt-12 flex items-center justify-center gap-2 text-black font-[600] text-[18px] md:text-[20px] font-open-sans hover:text-[#BF4423] cursor-pointer transition-colors"
+                aria-label="Close menu">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                    </path>
+                </svg>
+                <span>Close</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Section 1  -->
+    <section class="s1 w-full lg:min-h-[90vh]  min-h-[90vh] relative overflow-hidden flex items-center pl-5 md:pl-10">
+
+        <!-- Left Side Container  -->
+        <div class="relative z-20 flex flex-col gap-4 leading-20 pt-10">
+            <h1 id="slider-title"
+                class="md:text-[54px] text-[38px] font-[400] font-libre-baskerville text-[#ffffff] w-full max-w-[450px] break-words">
+                Clean Air Residences
+            </h1>
+
+        </div>
+
+        <!-- Absolute Position Image Slider  -->
+        <div id="slider-image-container" class="w-full h-full absolute top-0 left-0 z-0">
+            <img id="slider-image" src="img/s1/hero-1.png" alt="slider"
+                class="w-full h-full object-cover transition-opacity duration-1000 hidden md:block" />
+            <img id="slider-image" src="img/s1/ele_tall.jpg" alt="slider"
+                class="w-full h-full object-cover transition-opacity duration-1000 block md:hidden" />
+        </div>
+
+        <!-- Absolute Position Slider Pagination Div  -->
+        <div id="slider-pagination"
+            class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 flex flex-row gap-1">
+            <!-- Dots will be generated dynamically -->
+        </div>
+
+
+    </section>
+
+
+    <!-- Section 2  -->
+    <section class="w-full px-[48px] py-[70px] flex justify-center items-center">
+        <div class="w-full text-center flex justify-center items-center flex-col gap-[48px]">
+            <h1 class="font-[700] text-[46px]">
+                Global Legacy. <br>
+                Indian Precision.
+            </h1>
+            <div class="flex w-full justify-center flex-col items-center gap-[40px] text-center">
+                <p class="font-[400] text-[16px] max-w-[700px]">Forbes Global Properties India represents a carefully
+                    curated
+                    portfolio of exceptional homes and
+                    developments across the country. We bring global standards of luxury, governance, and credibility to
+                    India’s most discerning real estate buyers.</p>
+                <p class="font-[400] text-[16px]">Our role is not to list properties, but to <span class="font-[700]">
+                        select, validate, and elevate
+                    </span> them.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3  -->
+    <section class="w-full px-[48px] flex justify-center items-center pb-[70px]">
+        <!-- Centered Align Container   -->
+        <div class="w-full bg-[#FFF8F2] flex flex-col px-[40px] py-[48px] gap-8 rounded-[10px]">
+            <!-- Row 1  -->
+            <div class="flex flex-col gap-3">
+
+                <div class="flex justify-between items-center gap-4">
+
+                    <!-- Left Side Image Container  -->
+                    <div class="flex flex-col gap-3">
+                        <div>
+                            <p class="font-[400] text-[22px]">
+                                To represent only high-integrity, <br> design-led developments
+                            </p>
+                        </div>
+                        <div class="w-[572px] h-auto"><img src="img/s3/fab-s3-i1.jpg" alt="s3-i1"
+                                class="w-full h-full rounded-[15px]">
+                        </div>
+                    </div>
+
+                    <!-- Right Side Text Container   -->
+                    <div class="flex flex-col gap-3 text-center gap-[40px] mr-20">
+                        <h2 class="font-[700] text-[34px]">Our Mission</h2>
+                        <h3 class="font-[400] text-[30px]">Raising the Standard of <br> Luxury Real Estate in India</h3>
+                        <p class="font-[400] text-[16px] max-w-[395px]">Every association is driven by trust,
+                            discipline, and global
+                            best practices.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 2  -->
+            <div class="flex justify-center items-center gap-4">
+                <!-- Left Side Container  -->
+                <div class="flex gap-5 items-center">
+                    <p class="font-[400] text-[22px] max-w-[260px] text-right">
+                        To bring global visibility to India’s most credible luxury assets
+                    </p>
+
+                    <div class="w-[215px] h-auto"><img src="img/s3/fab-s3-i2.jpg" alt="s3-i2"
+                            class="w-full h-full rounded-[15px]">
+                    </div>
+                </div>
+
+                <!-- Right Side Container  -->
+                <div class="flex gap-5 items-center">
+                    <div class="w-[215px] h-auto"><img src="img/s3/fab-s3-i3.jpg" alt="s3-i3"
+                            class="w-full h-full rounded-[15px]">
+                    </div>
+                    <p class="font-[400] text-[22px] max-w-[304px] text-left">
+                        To align buyers with properties that offer long-term value, not short-term hype
+                    </p>
+
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Section 4  -->
+    <section class="w-full px-[48px] flex justify-center items-center pb-[70px]">
+        <!-- Centered Align Container   -->
+        <div class="w-full border-[1px] border-[#DFDFDF] flex flex-col px-[40px] py-[48px] gap-6 rounded-[10px]">
+            <!-- Row 1  -->
+            <div class="flex flex-col gap-3 items-end">
+
+                <div class="flex justify-between items-center gap-4 flex-row-reverse w-full">
+                    <!-- Left Side Image Container  -->
+                    <div class="flex flex-col gap-3">
+                        <div>
+                            <p class="font-[400] text-[22px]">
+                                To represent only high-integrity, <br> design-led developments
+                            </p>
+                        </div>
+
+                        <div class="w-[572px] h-auto"><img src="img/s3/fab-s3-i1.jpg" alt="s3-i1"
+                                class="w-full h-full rounded-[15px]">
+                        </div>
+                    </div>
+
+                    <!-- Right Side Text Container   -->
+                    <div class="flex flex-col gap-3 text-center gap-[40px] ml-20">
+                        <h2 class="font-[700] text-[34px]">Our Mission</h2>
+                        <h3 class="font-[400] text-[30px]">Raising the Standard of <br> Luxury Real Estate in India</h3>
+                        <p class="font-[400] text-[16px] max-w-[395px]">Every association is driven by trust,
+                            discipline, and global
+                            best practices.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 2  -->
+            <div class="flex justify-center items-center gap-4">
+                <!-- Left Side Container  -->
+                <div class="flex gap-5 items-center">
+                    <p class="font-[400] text-[22px] max-w-[260px] text-right">
+                        To bring global visibility to India’s most credible luxury assets
+                    </p>
+
+                    <div class="w-[215px] h-auto"><img src="img/s3/fab-s3-i2.jpg" alt="s3-i2"
+                            class="w-full h-full rounded-[15px]">
+                    </div>
+                </div>
+
+                <!-- Right Side Container  -->
+                <div class="flex gap-5 items-center">
+                    <div class="w-[215px] h-auto"><img src="img/s3/fab-s3-i3.jpg" alt="s3-i3"
+                            class="w-full h-full rounded-[15px]">
+                    </div>
+                    <p class="font-[400] text-[22px] max-w-[304px] text-left">
+                        To align buyers with properties that offer long-term value, not short-term hype
+                    </p>
+
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Section 5  -->
+    <section class="w-full px-[48px] flex justify-center items-center pb-[70px]">
+        <!-- Centered Align Container  -->
+        <div class="w-full flex flex-col gap-6 items-center">
+            <!-- Top Header For Content  -->
+            <div class="flex flex-col items-center gap-4 text-center">
+                <h4 class="font-[700] text-[46px]">
+                    Our Founders
+                </h4>
+                <p class="font-[400] text-[30px] ">Leadership Built on Experience and Integrity</p>
+            </div>
+
+            <!-- Main Founder Container  -->
+            <div class="w-full flex justify-between items-center gap-4">
+                <!-- Card 1  -->
+                <div class="flex flex-col w-[294px] gap-3 justify-between items-center text-center">
+                    <!-- Image Container  -->
+                    <div class="w-full h-auto"><img src="img/s5/f1.jpg" alt="s5-i1"
+                            class="w-full h-full rounded-[15px]"></div>
+
+                    <h5 class="font-[600] text-[20px]">Founder 1</h5>
+                    <p class="font-[400] text-[16px] max-w-[284px]">A senior real estate leader with extensive
+                        experience across premium residential markets and large-scale developments in India.</p>
+
+                    <div
+                        class="w-full border-[1px] border-[#E2E2E2] rounded-[10px] flex justify-center items-center text-center py-4 px-6 relative">
+
+                        <!-- Absolute Position Container  -->
+                        <div class="absolute -top-[10px] left-3">
+                            <img src="img/s5/qots.jpg" alt="s5-i1" class="w-[20px] h-full object-cover">
+                        </div>
+
+                        <p class="font-[400] text-[14px] text-[#BF4423] italic">Luxury begins with credibility and ends
+                            with legacy.</p>
+                    </div>
+                </div>
+
+                <!-- Card 2  -->
+                <div class="flex flex-col w-[294px] gap-3 justify-between items-center text-center">
+                    <!-- Image Container  -->
+                    <div class="w-full h-auto"><img src="img/s5/f2.jpg" alt="s5-i1"
+                            class="w-full h-full rounded-[15px]"></div>
+
+                    <h5 class="font-[600] text-[20px]">Founder 2</h5>
+                    <p class="font-[400] text-[16px] max-w-[284px]">An expert in strategic growth, partnerships, and
+                        brand-led real estate positioning across global and Indian luxury markets.</p>
+
+                    <div
+                        class="w-full border-[1px] border-[#E2E2E2] rounded-[10px] flex justify-center items-center text-center py-4 px-6 relative">
+
+                        <!-- Absolute Position Container  -->
+                        <div class="absolute -top-[10px] left-3">
+                            <img src="img/s5/qots.jpg" alt="s5-i1" class="w-[20px] h-full object-cover">
+                        </div>
+
+                        <p class="font-[400] text-[14px] text-[#BF4423] italic">Exclusivity is earned through
+                            discipline, not scale.</p>
+                    </div>
+                </div>
+
+
+                <!-- Card 3  -->
+                <div class="flex flex-col w-[294px] gap-3 justify-between items-center text-center">
+                    <!-- Image Container  -->
+                    <div class="w-full h-auto"><img src="img/s5/f3.jpg" alt="s5-i1"
+                            class="w-full h-full rounded-[15px]"></div>
+
+                    <h5 class="font-[600] text-[20px]">Founder 3</h5>
+                    <p class="font-[400] text-[16px] max-w-[284px]">A specialist in high-value residential investments
+                        with a deep focus on governance, transparency, and buyer trust.</p>
+
+                    <div
+                        class="w-full border-[1px] border-[#E2E2E2] rounded-[10px] flex justify-center items-center text-center py-4 px-6 relative">
+
+                        <!-- Absolute Position Container  -->
+                        <div class="absolute -top-[10px] left-3">
+                            <img src="img/s5/qots.jpg" alt="s5-i1" class="w-[20px] h-full object-cover">
+                        </div>
+
+                        <p class="font-[400] text-[14px] text-[#BF4423] italic">Enduring value is created when integrity
+                            leads.</p>
+                    </div>
+                </div>
+
+
+                <!-- Card 4  -->
+                <div class="flex flex-col w-[294px] gap-3 justify-between items-center text-center">
+                    <!-- Image Container  -->
+                    <div class="w-full h-auto"><img src="img/s5/f4.jpg" alt="s5-i1"
+                            class="w-full h-full rounded-[15px]"></div>
+
+                    <h5 class="font-[600] text-[20px]">Founder 4</h5>
+                    <p class="font-[400] text-[16px] max-w-[284px]">A visionary entrepreneur focused on building
+                        globally aligned real estate platforms rooted in Indian market realities.</p>
+
+                    <div
+                        class="w-full border-[1px] border-[#E2E2E2] rounded-[10px] flex justify-center items-center text-center py-4 px-6 relative">
+
+                        <!-- Absolute Position Container  -->
+                        <div class="absolute -top-[10px] left-3">
+                            <img src="img/s5/qots.jpg" alt="s5-i1" class="w-[20px] h-full object-cover">
+                        </div>
+
+                        <p class="font-[400] text-[14px] text-[#BF4423] italic">We don’t sell homes. We curate futures.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Section 6  -->
+    <section class="w-full  flex justify-center items-center py-[70px] bg-[#FFF8F2]">
+        <!-- Centered Align Container  -->
+        <div class="w-full flex flex-col gap-6 items-center">
+            <!-- Top Header For Content  -->
+            <div class="flex justify-center items-center gap-4 text-center flex-col">
+                <h4 class="font-[700] text-[46px]">
+                    Our Advisory Panel
+                </h4>
+                <p class="font-[400] text-[30px] ">Expertise That Shapes Every Decision</p>
+            </div>
+
+            <!-- Bottom Main Slider Container  -->
+            <div class="w-full slider-image-container relative overflow-hidden flex">
+
+                <!-- Slider Container  -->
+                <div class="flex justify-center items-center gap-4">
+                    <!--Swiper Card 1  -->
+                    <div class="w-[428px] slCard flex flex-col text-center gap-6">
+                        <div class="w-full h-auto">
+                            <img src="img/s6/s6-i1.jpg" alt="s6-i1" class="w-full h-full rounded-[15px]">
+                        </div>
+
+                        <div
+                            class="w-full flex justify-center items-center gap-4 flex-col text-center px-6 py-6  rounded-[15px]">
+                            <h6 class="font-[700] text-[22px] text-white">Advisor 2</h6>
+                            <p class="font-[400] text-[16px] text-white">Architecture and design authority ensuring
+                                every
+                                represented project meets international aesthetic and planning benchmarks.</p>
+                        </div>
+                    </div>
+
+                    <!--Swiper Card 2  -->
+                    <div class="w-[428px] flex slCard flex-col text-center gap-6">
+                        <div class="w-full h-auto">
+                            <img src="img/s6/s6-i2.jpg" alt="s6-i1" class="w-full h-full rounded-[15px]">
+                        </div>
+
+                        <div
+                            class="w-full flex justify-center items-center gap-4 flex-col text-center px-6 py-6 rounded-[15px]">
+                            <h6 class="font-[700] text-[22px] text-white">Advisor 2</h6>
+                            <p class="font-[400] text-[16px] text-white">Architecture and design authority ensuring
+                                every
+                                represented project meets international aesthetic and planning benchmarks.</p>
+                        </div>
+                    </div>
+
+                    <!--Swiper Card 3  -->
+                    <div class="w-[428px] flex slCard flex-col text-center gap-6">
+                        <div class="w-full h-auto">
+                            <img src="img/s6/s6-i3.png" alt="s6-i1" class="w-full h-full rounded-[15px]">
+                        </div>
+
+                        <div
+                            class="w-full flex justify-center items-center gap-4 flex-col text-center px-6 py-6 rounded-[15px]">
+                            <h6 class="font-[700] text-[22px] text-white">Advisor 2</h6>
+                            <p class="font-[400] text-[16px] text-white">Architecture and design authority ensuring
+                                every
+                                represented project meets international aesthetic and planning benchmarks.</p>
+                        </div>
+                    </div>
+
+                       <!--Swiper Card 4  -->
+                       <div class="w-[428px] flex slCard flex-col text-center gap-6">
+                        <div class="w-full h-auto">
+                            <img src="img/s6/s6-i1.jpg" alt="s6-i1" class="w-full h-full rounded-[15px]">
+                        </div>
+
+                        <div
+                            class="w-full flex justify-center items-center gap-4 flex-col text-center px-6 py-6 rounded-[15px]">
+                            <h6 class="font-[700] text-[22px] text-white">Advisor 2</h6>
+                            <p class="font-[400] text-[16px] text-white">Architecture and design authority ensuring
+                                every
+                                represented project meets international aesthetic and planning benchmarks.</p>
+                        </div>
+                    </div>
+
+                    <!--Swiper Card5   -->
+                    <div class="w-[428px] flex flex-col slCard text-center gap-6">
+                        <div class="w-full h-auto">
+                            <img src="img/s6/s6-i2.jpg" alt="s6-i1" class="w-full h-full rounded-[15px]">
+                        </div>
+
+                        <div
+                            class="w-full flex justify-center items-center gap-4 flex-col text-center px-6 py-6 rounded-[15px]">
+                            <h6 class="font-[700] text-[22px] text-white">Advisor 2</h6>
+                            <p class="font-[400] text-[16px] text-white">Architecture and design authority ensuring
+                                every
+                                represented project meets international aesthetic and planning benchmarks.</p>
+                        </div>
+                    </div>
+
+                             <!--Swiper Card5   -->
+                             <div class="w-[428px] flex flex-col slCard text-center gap-6">
+                                <div class="w-full h-auto">
+                                    <img src="img/s6/s6-i1.jpg" alt="s6-i1" class="w-full h-full rounded-[15px]">
+                                </div>
+        
+                                <div
+                                    class="w-full flex justify-center items-center gap-4 flex-col text-center px-6 py-6 rounded-[15px]">
+                                    <h6 class="font-[700] text-[22px] text-white">Advisor 2</h6>
+                                    <p class="font-[400] text-[16px] text-white">Architecture and design authority ensuring
+                                        every
+                                        represented project meets international aesthetic and planning benchmarks.</p>
+                                </div>
+                            </div>
+
+
+                                     <!--Swiper Card5   -->
+                    <div class="w-[428px] flex flex-col slCard text-center gap-6">
+                        <div class="w-full h-auto">
+                            <img src="img/s6/s6-i3.png" alt="s6-i1" class="w-full h-full rounded-[15px]">
+                        </div>
+
+                        <div
+                            class="w-full flex justify-center items-center gap-4 flex-col text-center px-6 py-6 rounded-[15px]">
+                            <h6 class="font-[700] text-[22px] text-white">Advisor 2</h6>
+                            <p class="font-[400] text-[16px] text-white">Architecture and design authority ensuring
+                                every
+                                represented project meets international aesthetic and planning benchmarks.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Slider Navigation Buttons  -->
+            <div class="flex justify-center items-center gap-4">
+                <button class="w-[40px] h-[40px] bg-[#BF4423] rounded-[5px]" onclick="leftSliderNavigation()">
+                    <img src="svgs/left-arrow.svg" alt="left-arrow" class="w-full h-full">
+                </button>
+                <button class="w-[40px] h-[40px] bg-[#BF4423] rounded-[5px]" onclick="rightSliderNavigation()">
+                    <img src="svgs/right-arrow.svg" alt="right-arrow" class="w-full h-full">
+                </button>
+            </div>
+        </div>
+
+    </section>
+    <!-- Section  8  -->
+    <section id="featured-project"
+        class="s4 w-full   relative overflow-hidden lg:pb-[70px] pb-[35px] flex flex-col items-center px-4 sm:px-6 md:px-10 xl:px-20 md:gap-6 gap-8 sm:gap-10">
+
+        <!-- Row 2  -->
+        <div id="sec4-row2" class="w-full container-widh flex flex-col gap-6 ">
+            <!-- Div 1  -->
+            <div id="sec4-row2-div1" class="w-full flex flex-col lg:flex-row justify-between gap-6">
+                <!-- Left Side Form Container  -->
+                <div id="sec4-form"
+                    class="w-full lg:w-[calc(100%-402px)] border-[1px] border-[#DEDDDD] flex flex-col px-4 md:px-6 justify-center rounded-[15px] md:rounded-[20px] gap-4 flex-shrink-1 lg:py-0 py-6">
+                    <p
+                        class="font-[400] text-[22px] md:text-[26px] lg:text-[30px] font-baskervville text-center lg:text-left">
+                        Request a Call Back
+                    </p>
+                    <form id="callback-form" class="flex flex-col gap-4">
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <input type="text" name="Name" required
+                                class="w-full  h-[45px] md:h-[50px] bg-[#F9F9F9] rounded-[8px] md:rounded-[10px] border-none pl-4 text-[14px] md:text-[16px]"
+                                placeholder="Your Name*" />
+                            <div class="w-full flex gap-2">
+                                <select id="callback-country-code" name="CountryCode"
+                                    class="h-[45px] md:h-[50px] bg-[#F9F9F9] rounded-[8px] md:rounded-[10px] border-none pl-3 pr-8 text-[14px] md:text-[16px] focus:outline-none cursor-pointer appearance-none"
+                                    style="background-image: url('data:image/svg+xml;charset=UTF-8,%3csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%23333\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3e%3cpolyline points=\'6 9 12 15 18 9\'%3e%3c/polyline%3e%3c/svg%3e'); background-repeat: no-repeat; background-position: right 0.5rem center; background-size: 1em 1em; min-width: 90px;">
+                                </select>
+                                <input type="tel" id="callback-phone" name="Phone" required
+                                    class="flex-1 h-[45px] md:h-[50px] bg-[#F9F9F9] rounded-[8px] md:rounded-[10px] border-none pl-4 text-[14px] md:text-[16px]"
+                                    placeholder="Phone Number*" />
+                            </div>
+                            <input type="email" name="Email" required
+                                class="w-full  h-[45px] md:h-[50px] bg-[#F9F9F9] rounded-[8px] md:rounded-[10px] border-none pl-4 text-[14px] md:text-[16px]"
+                                placeholder="Email*" />
+                        </div>
+                        <input type="text" name="Message"
+                            class="w-full lg:w-[100%] h-[50px] md:h-[60px] bg-[#F9F9F9] rounded-[8px] md:rounded-[10px] border-none pl-4 text-[14px] md:text-[16px]"
+                            placeholder="Message" />
+                        <button type="submit"
+                            class="w-full lg:w-[100%] h-[50px] md:h-[60px] bg-[#BF4423] text-white rounded-[4px] font-[600] text-[14px] md:text-[16px] hover:bg-[#BF4423] cursor-pointer">
+                            Get a Call Back
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Right Side Image Container  -->
+                <div id="sec4-card1"
+                    class="w-full lg:w-[402px] h-[300px] md:h-[341px] rounded-[15px] md:rounded-[20px] overflow-hidden bg-[#FFF4F2] flex flex-col justify-between p-4 md:p-6 shrink-0 gap-4">
+                    <!-- Row 1  -->
+                    <div class="flex justify-between w-full">
+                        <p class="font-[400] text-[14px] md:text-[16px] max-w-[219px]">
+                            Fab-Luxe Residences brings lifestyle in most sought after locations of Noida
+                        </p>
+
+                        <img src="svgs/arr-icn.svg" alt="arr-icn"
+                            class="w-[12px] h-[12px] md:w-[15px] md:h-[15px] flex-shrink-0" />
+                    </div>
+
+                    <!-- Row 2  -->
+                    <div class="flex items-center overflow-hidden rounded-[20px]">
+                        <img src="img/s8/s8-i1.png" alt="" class="w-full h-full object-cover">
+                    </div>
+
+                    <!-- Row 3  -->
+                    <div class="opacity-0">
+                        <p class="font-[400] text-[22px] md:text-[26px] lg:text-[30px] font-libre-baskerville">
+                            About us
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Div 2  -->
+            <div id="sec4-row2-div2" class="w-full flex flex-col lg:flex-row-reverse justify-between gap-6">
+                <!-- Left Side Form Container  -->
+                <div id="sec4-card2"
+                    class="w-full lg:w-[824px] h-[300px] md:h-[341px] p-4 md:p-6 rounded-[20px] overflow-hidden bg-[url('img/s8/s8-i4.jpg')] bg-no-repeat bg-center bg-cover flex flex-col justify-between">
+                    <!-- Row 1  -->
+                    <div class="flex justify-end w-full">
+
+                        <div
+                            class="w-[32px] h-[32px] md:w-[38px] md:h-[38px] bg-white rounded-[5px] flex justify-center items-center flex-shrink-0">
+                            <img src="svgs/arr-icn.svg" alt="" class="w-[12px] h-[12px] md:w-[15px] md:h-[15px]" />
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <!-- Right Side Image Container  -->
+                <div id="sec4-card3"
+                    class="w-full lg:w-[402px] h-[300px] md:h-[341px] rounded-[20px] overflow-hidden bg-[#F7F7F7] flex flex-col justify-between p-4 md:p-6 gap-4">
+                    <!-- Row 1  -->
+                    <div class="flex justify-between w-full">
+                        <div class="flex flex-col gap-3 md:gap-4">
+                            <div class="flex gap-4 md:gap-6">
+                                <img src="svgs/email.svg" alt="email"
+                                    class="w-[18px] h-[18px] md:w-[21px] md:h-[21px] flex-shrink-0" />
+                                <p class="font-[400] text-[14px] md:text-[16px] font-open-sans">
+                                    sales@fgpindia.com
+                                </p>
+                            </div>
+                            <div class="flex gap-4 md:gap-6">
+                                <img src="svgs/phone.svg" alt="phone"
+                                    class="w-[18px] h-[18px] md:w-[21px] md:h-[21px] flex-shrink-0" />
+                                <p class="font-[400] text-[14px] md:text-[16px] font-open-sans">
+                                    +91 8888 760 760
+                                </p>
+                            </div>
+                        </div>
+
+                        <img src="svgs/arr-icn.svg" alt="arr-icn"
+                            class="w-[12px] h-[12px] md:w-[15px] md:h-[15px] flex-shrink-0" />
+                    </div>
+
+                    <!-- Row 2  -->
+                    <div class="flex justify-center items-center overflow-hidden rounded-[20px]">
+                        <img src="img/s8/s8-i2.png" alt="s4-r4i2" class="w-auto h-auto max-w-full" />
+                    </div>
+
+                    <!-- Row 3  -->
+                    <div>
+                        <p class="font-[400] text-[22px] md:text-[26px] lg:text-[30px] font-baskervville">
+                            Contact us
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--  -->
+    <footer id="footer"
+        class="w-full min-h-[50vh] bg-[#F7EEE6] text-black flex justify-center items-center lg:pt-[70px] pt-[35px] lg:pb-[35px] pb-[15px] px-4 md:px-0">
+        <!-- Centerd Align Container  -->
+        <div id="footer-container" class="w-full md:w-[90%] flex flex-col gap-10 md:gap-16 lg:gap-20">
+            <!-- Row 1  -->
+            <div id="footer-row1" class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <!-- Col 1  -->
+                <div class="flex justify-center md:justify-start pb-4 md:pb-0
+                
+                md:border-r-[2px] md:pr-14 md:border-r-[#CDCDCD]
+                ">
+                    <img src="img/logo/black-logo1.png" alt="footer-logo" class="w-[182px] h-auto " />
+                </div>
+
+                <!-- Col 2  -->
+                <div class="w-full md:w-[770px] text-center md:text-left">
+                    <p class="font-[400] text-[18px] md:text-[20px] lg:text-[24px] font-baskervville">
+                        A global network for exceptional homes, represented with discretion, credibility and reach.
+                    </p>
+                </div>
+
+                <!-- Col 3  -->
+                <button id="scroll-to-hero" type="button"
+                    class="w-[50px] h-[50px] md:w-[60px] md:h-[60px] flex justify-center items-center bg-[#BF4423] rounded-[2px] flex-shrink-0"
+                    aria-label="Scroll to top" onclick="scrollToHeroSection()">
+                    <img src="svgs/arr2-icn.svg" alt="Scroll to top" class="w-[20px] h-[20px] md:w-auto md:h-auto" />
+                </button>
+                <script>
+                    function scrollToHeroSection() {
+                        const hero = document.getElementById('hero') || document.querySelector('.s1') || document.body;
+                        if (hero && typeof hero.scrollIntoView === 'function') {
+                            hero.scrollIntoView({ behavior: 'smooth' });
+                        } else {
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }
+                    }
+                </script>
+            </div>
+
+            <!-- Row 2  -->
+            <div id="footer-row2" class="w-full flex flex-col md:flex-row justify-between gap-8 md:gap-4 lg:gap-0">
+                <!-- Col 1  -->
+                <div id="footer-col1"
+                    class="flex flex-col gap-6 md:gap-8 lg:gap-10 w-full md:w-auto items-center md:items-start">
+                    <div class="w-full flex flex-col items-center md:items-start">
+                        <p
+                            class="font-[700] text-[12px] md:text-[14px] uppercase font-open-sans mb-2 md:mb-0 text-center md:text-left">
+                            Expert insights direct to your inbox
+                        </p>
+                        <form id="footer-email-form" class="relative w-full">
+                            <input type="email" name="Email" id="footer-email-input" required
+                                class="w-full xl:w-[524px] border-b-[1px] border-black h-[50px] md:h-[60px] bg-transparent outline-none placeholder:text-[#636363] font-[400] text-[16px] md:text-[18px] placeholder:text-[16px] md:placeholder:text-[18px] pr-8 text-center md:text-left pl-2"
+                                placeholder="Enter your email" />
+                            <button type="submit"
+                                class="absolute right-2 top-1/2 translate-y-[-50%] bg-transparent border-none cursor-pointer p-0"
+                                aria-label="Submit email">
+                                <img src="img/right-arr.png" alt="arr3-icn"
+                                    class="w-[32px] h-[11px] pointer-events-none" />
+                            </button>
+                        </form>
+                    </div>
+                    <div class="flex flex-col gap-2 items-center md:items-start">
+                        <p
+                            class="font-[700] text-[12px] md:text-[14px] uppercase font-open-sans text-center md:text-left">
+                            get in touch
+                        </p>
+                        <p class="font-[400] text-[14px] md:text-[16px] font-open-sans text-center md:text-left cursor-pointer"
+                            onclick="window.location.href='mailto:sales@fgpindia.com'">
+                            sales@fgpindia.com
+                        </p>
+                        <p class="font-[400] text-[14px] md:text-[16px] font-open-sans text-center md:text-left cursor-pointer"
+                            onclick="window.location.href='tel:+918888760760'">
+                            +91 8888 760 760
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Col 2  -->
+                <div id="footer-col2" class="text-black flex flex-col items-center md:items-start">
+                    <p
+                        class="font-[700] text-[12px] md:text-[14px] uppercase text-black font-open-sans mb-2 text-center md:text-left">
+                        find us
+                    </p>
+                    <ul
+                        class="flex flex-col gap-2 font-[400] text-[12px] md:text-[14px] text-black mt-2 md:mt-0 font-open-sans text-center md:text-left">
+                        <li>1, Link Road, Kapashera,</li>
+                        <li>New Delhi</li>
+                    </ul>
+                </div>
+
+                <!-- Col 3  -->
+                <div id="footer-col3" class="text-black flex flex-col items-center md:items-start">
+                    <p
+                        class="font-[700] text-[12px] md:text-[14px] uppercase text-black font-open-sans mb-2 text-center md:text-left">
+                        quick links
+                    </p>
+                    <ul
+                        class="flex flex-col gap-2 font-[400] text-[12px] md:text-[14px] text-black mt-2 md:mt-0 font-open-sans text-center md:text-left">
+                        <li><a href="#curated-amenities"
+                                class="hover:text-[#BF4423] transition-colors cursor-pointer">Curated Amenities</a>
+                        </li>
+                        <li><a href="#location"
+                                class="hover:text-[#BF4423] transition-colors cursor-pointer">Location</a>
+                        <li><a href="#layouts" class="hover:text-[#BF4423] transition-colors cursor-pointer">Layouts</a>
+                        </li>
+                        <li><a href="#"
+                                class="enquiry-popup-trigger hover:text-[#BF4423] transition-colors cursor-pointer">Get
+                                in
+                                Touch</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 4  -->
+                <div id="footer-col4" class="flex flex-col gap-3 md:gap-4 items-center md:items-start">
+                    <p
+                        class="font-[700] text-[12px] md:text-[14px] uppercase text-black font-open-sans text-center md:text-left">
+                        Follow us
+                    </p>
+                    <ul class="flex flex-col gap-3 md:gap-4 items-center md:items-start">
+                        <li>
+                            <a href="https://www.instagram.com/fabluxe.residences/" target="_blank"
+                                rel="noopener noreferrer"
+                                class="flex gap-2 pb-3 md:pb-4 w-full md:w-[120px] justify-center md:justify-start md:border-b-[1px] md:border-[#B9A57B] hover:opacity-80 transition-opacity cursor-pointer">
+                                <img src="img/insta.png" alt="Instagram" class="w-[17px] h-[17px] " />
+                                <p class="font-[400] text-[12px] md:text-[14px] font-open-sans">
+                                    Instagram
+                                </p>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="https://x.com/fab_luxe" target="_blank" rel="noopener noreferrer"
+                                class="flex gap-2 pb-3 md:pb-4 w-full md:w-[120px] justify-center md:justify-start md:border-b-[1px] md:border-[#B9A57B] hover:opacity-80 transition-opacity cursor-pointer">
+                                <img src="img/twitter.png" alt="Twitter" class="w-[18px] h-[18px] " />
+                                <p class="font-[400] text-[12px] md:text-[14px] font-open-sans">
+                                    Twitter
+                                </p>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="https://www.linkedin.com/company/fab-luxe-residences" target="_blank"
+                                rel="noopener noreferrer"
+                                class="flex gap-2 pb-3 md:pb-4 w-full md:w-[120px] justify-center md:justify-start md:border-b-[1px] md:border-[#B9A57B] hover:opacity-80 transition-opacity cursor-pointer">
+                                <img src="img/linkdin.png" alt="LinkedIn" class="w-[17px] h-[17px] " />
+                                <p class="font-[400] text-[12px] md:text-[14px] font-open-sans">
+                                    LinkedIn
+                                </p>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="https://www.youtube.com/@FabLuxeResidences" target="_blank"
+                                rel="noopener noreferrer"
+                                class="flex gap-2 pb-0 w-full md:w-[120px] justify-center md:justify-start hover:opacity-80 transition-opacity cursor-pointer">
+                                <img src="img/yt.png" alt="YouTube" class="w-[14px] h-[14px] " />
+                                <p class="font-[400] text-[12px] md:text-[14px] font-open-sans">
+                                    Youtube
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Row 3  -->
+            <div id="footer-row3"
+                class="flex flex-col md:flex-row justify-between items-center md:items-center border-t-[1px] border-[#CDCDCD] pt-[35px] gap-4 md:gap-0">
+                <p
+                    class="font-[400] text-[12px] md:text-[14px] text-black font-open-sans text-center md:text-left capitalize">
+                    © 2026 All rights reserved.
+                </p>
+
+                <div class="flex justify-center md:justify-between items-center gap-4 md:gap-6">
+                    <p class="font-[400] text-[12px] md:text-[14px] text-black font-open-sans">
+                        Privacy Policy
+                    </p>
+                    <p class="font-[400] text-[12px] md:text-[14px] text-black font-open-sans">
+                        Terms & Conditions
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Enquiry Popup Modal -->
+    <div id="enquiry-popup"
+        class="fixed inset-0 z-[10000] hidden items-center justify-center bg-black bg-opacity-75 backdrop-blur-md">
+        <!-- Overlay -->
+        <div id="popup-overlay" class="absolute inset-0 bg-black bg-opacity-50"></div>
+
+        <!-- Popup Content -->
+        <div id="popup-content"
+            class="relative w-full max-w-[700px] md:max-w-[800px] mx-4 bg-white rounded-[20px] md:rounded-[24px] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] overflow-hidden transform scale-95 opacity-0 transition-all duration-300 flex flex-col md:flex-row max-h-[90vh] overflow-y-auto">
+            <!-- Close Button -->
+            <button id="popup-close-btn"
+                class="absolute top-5 right-5 md:top-6 md:right-6 z-20 w-9 h-9 md:w-10 md:h-10 flex items-center justify-center bg-transparent hover:bg-gray-100 text-gray-400 hover:text-gray-600 rounded-full transition-all duration-300 group"
+                aria-label="Close popup">
+                <svg class="w-5 h-5 md:w-6 md:h-6 group-hover:rotate-90 transition-transform duration-300" fill="none"
+                    stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                    </path>
+                </svg>
+            </button>
+
+            <!-- Left Section - Image -->
+            <div class="w-full md:w-2/5 h-[200px] md:h-auto bg-gray-200 overflow-hidden hidden md:block">
+                <img src="img/s1/ele_tall.jpg" alt="Luxury Property" class="w-full h-full object-cover" />
+            </div>
+
+            <!-- Right Section - Greeting and Form -->
+            <div class="w-full md:w-3/5 flex flex-col">
+                <!-- Greeting Message -->
+                <div class="px-6 md:px-8 pt-6 md:pt-8 pb-4 md:pb-5">
+                    <h2 class="text-black font-[700] text-[22px] md:text-[26px] font-libre-baskerville mb-2">
+                        Request Information
+                    </h2>
+                    <p class="text-gray-600 font-[400] text-[13px] md:text-[14px] font-open-sans">
+                        Connect with our luxury property experts
+                    </p>
+                </div>
+
+                <!-- Popup Form -->
+                <div class="px-6 md:px-8 pb-6 md:pb-8 flex-1">
+                    <form id="enquiry-form" class="flex flex-col gap-4 md:gap-5">
+                        <!-- Name, Email, Phone in Single Row -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+                            <!-- Name Field -->
+                            <div class="flex flex-col gap-1.5">
+                                <label for="popup-name"
+                                    class="text-black font-[600] text-[12px] md:text-[13px] font-open-sans">
+                                    Name <span class="text-[#CF4422]">*</span>
+                                </label>
+                                <input type="text" id="popup-name" name="Name" placeholder="Name" required
+                                    class="w-full h-[42px] md:h-[45px] px-0 pb-2 border-0 border-b-2 border-gray-300 text-black font-[400] text-[14px] md:text-[15px] font-open-sans focus:outline-none focus:border-[#CF4422] transition-colors duration-200 bg-transparent" />
+                            </div>
+
+                            <!-- Email Field -->
+                            <div class="flex flex-col gap-1.5">
+                                <label for="popup-email"
+                                    class="text-black font-[600] text-[12px] md:text-[13px] font-open-sans">
+                                    Email <span class="text-[#CF4422]">*</span>
+                                </label>
+                                <input type="email" id="popup-email" name="Email" placeholder="Email" required
+                                    class="w-full h-[42px] md:h-[45px] px-0 pb-2 border-0 border-b-2 border-gray-300 text-black font-[400] text-[14px] md:text-[15px] font-open-sans focus:outline-none focus:border-[#CF4422] transition-colors duration-200 bg-transparent" />
+                            </div>
+
+
+                        </div>
+                        <!-- Phone Field -->
+                        <div class="flex flex-col gap-1.5">
+                            <label for="popup-phone"
+                                class="text-black font-[600] text-[12px] md:text-[13px] font-open-sans">
+                                Phone <span class="text-[#CF4422]">*</span>
+                            </label>
+                            <div class="flex gap-2 items-end">
+                                <select id="popup-country-code" name="CountryCode"
+                                    class="h-[42px] md:h-[45px] px-0 pb-2 border-0 border-b-2 border-gray-300 text-black font-[400] text-[14px] md:text-[15px] font-open-sans focus:outline-none focus:border-[#CF4422] transition-colors duration-200 bg-transparent cursor-pointer appearance-none"
+                                    style="background-image: url('data:image/svg+xml;charset=UTF-8,%3csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%23333\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3e%3cpolyline points=\'6 9 12 15 18 9\'%3e%3c/polyline%3e%3c/svg%3e'); background-repeat: no-repeat; background-position: right 0.25rem bottom 0.5rem; background-size: 0.875em 0.875em; padding-right: 1.5rem; min-width: 75px; max-width: 100px;">
+                                </select>
+                                <input type="tel" id="popup-phone" name="Phone" placeholder="Phone" required
+                                    class="flex-1 h-[42px] md:h-[45px] px-0 pb-2 border-0 border-b-2 border-gray-300 text-black font-[400] text-[14px] md:text-[15px] font-open-sans focus:outline-none focus:border-[#CF4422] transition-colors duration-200 bg-transparent" />
+                            </div>
+                        </div>
+                        <!-- Message Field -->
+                        <div class="flex flex-col gap-1.5">
+                            <label for="popup-message"
+                                class="text-black font-[600] text-[12px] md:text-[13px] font-open-sans">
+                                Message
+                            </label>
+                            <textarea id="popup-message" name="Message" rows="3" placeholder="Message"
+                                class="w-full px-0 pt-2 pb-2 border-0 border-b-2 border-gray-300 text-black font-[400] text-[14px] md:text-[15px] font-open-sans focus:outline-none focus:border-[#CF4422] transition-colors duration-200 resize-none bg-transparent min-h-[80px]"></textarea>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit"
+                            class="w-full h-[46px] md:h-[50px] bg-[#CF4422] hover:bg-[#BF4423] text-white font-[700] text-[13px] md:text-[14px] rounded-[6px] font-open-sans transition-all duration-300 hover:shadow-lg hover:shadow-[#CF4422]/30 hover:scale-[1.01] active:scale-[0.99] mt-1 uppercase tracking-[0.5px]">
+                            Submit Request
+                        </button>
+
+                        <!-- Privacy Note -->
+                        <p
+                            class="text-gray-500 font-[400] text-[11px] md:text-[12px] font-open-sans text-center mt-2 leading-relaxed">
+                            By submitting this form, you agree to our
+                            privacy policy
+                            and
+                            terms of service.
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loader Popup -->
+    <div id="loader-popup"
+        class="fixed inset-0 z-[20000] hidden items-center justify-center bg-black bg-opacity-75 backdrop-blur-sm">
+        <div
+            class="bg-white rounded-[20px] md:rounded-[24px] p-8 md:p-12 flex flex-col items-center gap-6 md:gap-8 max-w-[400px] mx-4">
+            <div
+                class="loader-spinner w-16 h-16 md:w-20 md:h-20 border-4 border-[#F9F9F9] border-t-[#CF4422] rounded-full animate-spin">
+            </div>
+            <p class="text-black font-[600] text-[16px] md:text-[18px] font-open-sans text-center">Submitting your
+                request...
+            </p>
+            <p class="text-gray-600 font-[400] text-[14px] md:text-[15px] font-open-sans text-center">Please wait</p>
+        </div>
+    </div>
+
+
+
+    <!-- Error Popup -->
+    <div id="error-popup"
+        class="fixed inset-0 z-[20000] hidden items-center justify-center bg-black bg-opacity-75 backdrop-blur-sm">
+        <div
+            class="bg-white rounded-[20px] md:rounded-[24px] p-8 md:p-12 flex flex-col items-center gap-6 md:gap-8 max-w-[500px] mx-4 text-center">
+            <div class="w-20 h-20 md:w-24 md:h-24 bg-[#dc3545] rounded-full flex items-center justify-center">
+                <svg class="w-12 h-12 md:w-14 md:h-14 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12">
+                    </path>
+                </svg>
+            </div>
+            <div class="flex flex-col gap-3">
+                <h3 class="text-black font-[700] text-[24px] md:text-[28px] font-libre-baskerville">Error!</h3>
+                <p id="error-popup-message" class="text-gray-600 font-[400] text-[15px] md:text-[16px] font-open-sans">
+                    Something
+                    went wrong. Please try again.</p>
+            </div>
+            <button id="error-popup-close"
+                class="w-full md:w-auto px-8 py-3 bg-[#CF4422] hover:bg-[#BF4423] text-white font-[600] text-[14px] md:text-[16px] rounded-[8px] font-open-sans transition-all duration-300">
+                Try Again
+            </button>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+</body>
+
+</html>
