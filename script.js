@@ -2192,16 +2192,12 @@ function initTabSwitchingContainer1() {
     // Set initial designation
     if (designationElement1 && tabContentData[0] && tabContentData[0].desination) {
         designationElement1.textContent = tabContentData[0].desination;
-        designationElement1.style.opacity = '1';
-        designationElement1.style.transform = 'translateY(0)';
     }
     // Set initial designation2
     if (designationElement2 && tabContentData[0]) {
         if (tabContentData[0].desination2) {
             designationElement2.textContent = tabContentData[0].desination2;
             designationElement2.style.display = 'block';
-            designationElement2.style.opacity = '1';
-            designationElement2.style.transform = 'translateY(0)';
         } else {
             designationElement2.style.display = 'none';
         }
@@ -2224,71 +2220,22 @@ function initTabSwitchingContainer1() {
         const tabData = tabContentData[tabIndex];
         if (!tabData) return;
 
-        // Fade out and slide up current content
-        textElement1.style.opacity = '0';
-        textElement1.style.transform = 'translateY(-10px)';
-        imageElement1.style.opacity = '0';
-        imageElement1.style.transform = 'translateY(-10px)';
-        if (mobileNameElement1) {
-            mobileNameElement1.style.opacity = '0';
-            mobileNameElement1.style.transform = 'translateY(-10px)';
-        }
-        if (designationElement1) {
-            designationElement1.style.opacity = '0';
-            designationElement1.style.transform = 'translateY(-10px)';
-        }
+        // Update content instantly without animation
+        textElement1.innerHTML = tabData.content;
+        imageElement1.src = tabData.image;
+        imageElement1.alt = tabData.name;
+        if (mobileNameElement1) mobileNameElement1.textContent = tabData.name;
+        if (designationElement1 && tabData.desination) designationElement1.textContent = tabData.desination;
+        
+        // Handle designation2 - show if exists, hide if not
         if (designationElement2) {
-            designationElement2.style.opacity = '0';
-            designationElement2.style.transform = 'translateY(-10px)';
-        }
-
-        // Update content after fade out
-        setTimeout(() => {
-            textElement1.innerHTML = tabData.content;
-            imageElement1.src = tabData.image;
-            imageElement1.alt = tabData.name;
-            if (mobileNameElement1) mobileNameElement1.textContent = tabData.name;
-            if (designationElement1 && tabData.desination) designationElement1.textContent = tabData.desination;
-            
-            // Handle designation2 - show if exists, hide if not
-            if (designationElement2) {
-                if (tabData.desination2) {
-                    designationElement2.textContent = tabData.desination2;
-                    designationElement2.style.display = 'block';
-                } else {
-                    designationElement2.style.display = 'none';
-                }
+            if (tabData.desination2) {
+                designationElement2.textContent = tabData.desination2;
+                designationElement2.style.display = 'block';
+            } else {
+                designationElement2.style.display = 'none';
             }
-
-            // Reset transform for fade in
-            textElement1.style.transform = 'translateY(10px)';
-            imageElement1.style.transform = 'translateY(10px)';
-            if (mobileNameElement1) mobileNameElement1.style.transform = 'translateY(10px)';
-            if (designationElement1) designationElement1.style.transform = 'translateY(10px)';
-            if (designationElement2 && tabData.desination2) designationElement2.style.transform = 'translateY(10px)';
-
-            // Fade in and slide up new content
-            requestAnimationFrame(() => {
-                setTimeout(() => {
-                    textElement1.style.opacity = '1';
-                    textElement1.style.transform = 'translateY(0)';
-                    imageElement1.style.opacity = '1';
-                    imageElement1.style.transform = 'translateY(0)';
-                    if (mobileNameElement1) {
-                        mobileNameElement1.style.opacity = '1';
-                        mobileNameElement1.style.transform = 'translateY(0)';
-                    }
-                    if (designationElement1) {
-                        designationElement1.style.opacity = '1';
-                        designationElement1.style.transform = 'translateY(0)';
-                    }
-                    if (designationElement2 && tabData.desination2) {
-                        designationElement2.style.opacity = '1';
-                        designationElement2.style.transform = 'translateY(0)';
-                    }
-                }, 10);
-            });
-        }, 300);
+        }
     }
 
     // Add click event listeners to all tabs in container 1

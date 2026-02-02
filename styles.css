@@ -199,11 +199,7 @@
 
 /* Tab Content Transitions - Container 1 */
 #tab-content-name,
-#tab-content-text,
-#tab-content-image,
-.tab-content-name-mobile,
-#tab-content-designation,
-#tab-content-designation2 {
+.tab-content-name-mobile {
     transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out;
 }
 
