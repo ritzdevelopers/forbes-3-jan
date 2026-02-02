@@ -2158,11 +2158,12 @@ She brings more than just expertise, she brings perspective. Whether it's steeri
         name: "Aditya Goel",
         image: "img/founders/fond66.jpg",
         content: `
-        Aditya Goel, Vice President- Business Development, Forbes Properties, brings over 10 years of experience in the real estate sector, built through consistent execution and a long-term operating mindset. He holds an LLB and a BBA with a specialisation in Real Estate and Urban Infrastructure, grounding his leadership in both commercial acumen and regulatory understanding.  <br><br>
+       Aditya Goel, brings over 10 years of experience in the real estate sector, built through consistent execution and a long-term operating mindset. He holds an LLB and a BBA with a specialisation in Real Estate and Urban Infrastructure, grounding his leadership in both commercial acumen and regulatory understanding.  <br><br>
 
 His career spans sales strategy, luxury real estate marketing, business development, portfolio advisory, and transaction structuring across high-value residential assets. Known for a sharp reading of market cycles and disciplined decision-making, he has worked closely with discerning homeowners, investors, and strategic partners in the premium and luxury segments. <br><br>
 
-Aditya's leadership is defined by clarity, discretion, and operational depth. Rather than scale through noise, he has focused on building trust-led systems and sustainable growth. Under his direction, Forbes Properties reflects stability, refined execution, and a mature approach to luxury real estate driven by long-term value creation.`
+Aditya's leadership is defined by clarity, discretion, and operational depth. Rather than scale through noise, he has focused on building trust-led systems and sustainable growth. He reflects stability, refined execution, and a mature approach to luxury real estate driven by long-term value creation.
+        `
     },
     {
         desination: "Executive Lead (Middle East Region)",
