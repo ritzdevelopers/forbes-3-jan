@@ -2112,7 +2112,7 @@ window.addEventListener('resize', () => {
 // Tab Content Data
 const tabContentData = [
     {
-        desination:"Chairman",
+        desination: "Chairman",
         name: "Arun Kumar Sharma",
         image: "img/founders/fond11.jpg",
         content: `He is a retired senior Indian Police Services (IPS) officer from the 1987 batch, Gujarat cadre, who has served in various positions including Additional Director of the Central Bureau of Investigation (CBI). He has held several positions of distinction and important responsibilities and has a remarkable record of service. He has been honoured with the President’s Police Medal for Distinguished Service and awarded the Indian Police Medal for Meritorious Service.  <br><br>
@@ -2122,7 +2122,7 @@ With over 34 years of expertise, he has held a pivotal role in investigations of
 He also lends his expertise in engaging with law enforcement agencies, adeptly addressing jurisdictional issues and overcoming roadblocks to expedite ongoing matters within the organisation. His extensive experience includes effectively managing public order and contributing to decision-making on vigilance and policy matters. He is currently handling and demonstrating a profound interest and active involvement in the real estate sector, which is the second-largest economy in India.`
     },
     {
-        desination:"Chairman (Project Development)",
+        desination: "Chairman (Project Development)",
         name: "Avdhesh Kumar Goel",
         image: "img/founders/fond44.jpg",
         content: `Dynamic executive leader with more than 35 years of distinguished expertise spanning finance, regulatory compliance, corporate governance, strategic project management, and real estate development. A highly accomplished Chartered Accountant, Cost & Works Accountant, and Company Secretary, Mr. Goel has provided strategic financial advisory, audit, and restructuring services to many renowned multinational and Indian corporations.  <br><br>
@@ -2134,7 +2134,7 @@ He brings in deep expertise in financial advisory, regulatory compliance, and co
         `
     },
     {
-        desination:"Director",
+        desination: "Director",
         name: "Mona Vij",
         image: "img/founders/fond21.jpg",
         content: `
@@ -2146,7 +2146,7 @@ In recent years, her focus and involvement have been in the real estate sector. 
 `
     },
     {
-        desination:"Director",
+        desination: "Director",
         name: "Mani Gupta",
         image: "img/founders/mani-gupta.jpg",
         content: `It is always a privilege of working alongside a professional whose depth of experience and instinct for excellence have consistently elevated our collective vision. With over a decade immersed in the real estate industry, spanning hospitality, healthcare, and large-scale development, Mani embodies a rare synthesis of entrepreneurial drive and meticulous execution. Her ability to lead complex initiatives, craft meaningful client experiences, and cultivate high-value relationships has been instrumental in shaping the stature and substance of our projects. <br><br>
@@ -2154,7 +2154,7 @@ She brings more than just expertise, she brings perspective. Whether it's steeri
 `
     },
     {
-        desination:"Vice President (Business Development)",
+        desination: "Vice President (Business Development)",
         name: "Aditya Goel",
         image: "img/founders/fond66.jpg",
         content: `
@@ -2163,12 +2163,20 @@ She brings more than just expertise, she brings perspective. Whether it's steeri
 His career spans sales strategy, luxury real estate marketing, business development, portfolio advisory, and transaction structuring across high-value residential assets. Known for a sharp reading of market cycles and disciplined decision-making, he has worked closely with discerning homeowners, investors, and strategic partners in the premium and luxury segments. <br><br>
 
 Aditya's leadership is defined by clarity, discretion, and operational depth. Rather than scale through noise, he has focused on building trust-led systems and sustainable growth. Under his direction, Forbes Properties reflects stability, refined execution, and a mature approach to luxury real estate driven by long-term value creation.`
+    },
+    {
+        desination: "Executive Lead (Middle East Region)",
+        name: "Yaman Rizvi",
+        image: "img/founders/yaman-rizvi.jpg",
+        content: `
+        With over a decade of experience across hospitality, healthcare, and real estate, she brings a unique blend of entrepreneurial instinct and refined operational expertise. Known for turning ambitious ideas into high-performing ventures, she has led diverse projects and luxury-focused events with creativity, precision, and a sharp understanding of elevated experiences.  <br><br>
+In real estate, her strategic influence is both sophisticated and impactful. She plays a key role in positioning projects for high-net-worth individuals and global investors, especially across the Middle East. By cultivating meaningful relationships and extending curated investment opportunities, she continues to shape ventures that are not only successful but enduringly iconic.`
     }
 ];
 
-// Tab Switching Functionality - Container 1 (all 5 tabs: 0, 1, 2, 3, 4)
+// Tab Switching Functionality - Container 1 (all 6 tabs: 0, 1, 2, 3, 4, 5)
 function initTabSwitchingContainer1() {
-    const container1Tabs = document.querySelectorAll('.tab-card[data-tab="0"], .tab-card[data-tab="1"], .tab-card[data-tab="2"], .tab-card[data-tab="3"], .tab-card[data-tab="4"]');
+    const container1Tabs = document.querySelectorAll('.tab-card[data-tab="0"], .tab-card[data-tab="1"], .tab-card[data-tab="2"], .tab-card[data-tab="3"], .tab-card[data-tab="4"], .tab-card[data-tab="5"]');
     const textElement1 = document.getElementById('tab-content-text');
     const imageElement1 = document.getElementById('tab-content-image');
     const mobileNameElement1 = document.querySelector('.tab-content-name-mobile');
@@ -2250,7 +2258,7 @@ function initTabSwitchingContainer1() {
     container1Tabs.forEach((tab) => {
         tab.addEventListener('click', () => {
             const tabIndex = parseInt(tab.getAttribute('data-tab'));
-            if (!isNaN(tabIndex) && tabIndex >= 0 && tabIndex <= 4) {
+            if (!isNaN(tabIndex) && tabIndex >= 0 && tabIndex <= 5) {
                 switchTabContainer1(tabIndex);
             }
         });
@@ -2435,7 +2443,7 @@ function initTabSwitchingContainer3() {
     function switchTabContainer3(tabIndex) {
         // Map tabIndex to advisor data array (5->0, 6->1, 7->2)
         const advisorIndex = tabIndex - 5;
-        
+
         // Remove active class from container 3 tabs only
         container3Tabs.forEach((tab) => {
             const tabDataIndex = parseInt(tab.getAttribute('data-tab'));
@@ -2533,7 +2541,7 @@ function initTabSwitchingContainer4() {
     function switchTabContainer4(tabIndex) {
         // Map tabIndex to advisor data array (8->3, 9->4, 10->5)
         const advisorIndex = tabIndex - 5;
-        
+
         // Remove active class from container 4 tabs only
         container4Tabs.forEach((tab) => {
             const tabDataIndex = parseInt(tab.getAttribute('data-tab'));
@@ -2630,7 +2638,7 @@ function initTabSwitchingContainer5() {
     function switchTabContainer5(tabIndex) {
         // Map tabIndex to advisor data array (11->6, 12->7)
         const advisorIndex = tabIndex - 5;
-        
+
         // Remove active class from container 5 tabs only
         container5Tabs.forEach((tab) => {
             const tabDataIndex = parseInt(tab.getAttribute('data-tab'));
