@@ -2122,7 +2122,8 @@ With over 34 years of expertise, he has held a pivotal role in investigations of
 He also lends his expertise in engaging with law enforcement agencies, adeptly addressing jurisdictional issues and overcoming roadblocks to expedite ongoing matters within the organisation. His extensive experience includes effectively managing public order and contributing to decision-making on vigilance and policy matters. He is currently handling and demonstrating a profound interest and active involvement in the real estate sector, which is the second-largest economy in India.`
     },
     {
-        desination: "Chairman (Project Development)",
+        desination: "Chairman",
+        desination2: "(Project Development)",
         name: "Avdhesh Kumar Goel",
         image: "img/founders/fond44.jpg",
         content: `Dynamic executive leader with more than 35 years of distinguished expertise spanning finance, regulatory compliance, corporate governance, strategic project management, and real estate development. A highly accomplished Chartered Accountant, Cost & Works Accountant, and Company Secretary, Mr. Goel has provided strategic financial advisory, audit, and restructuring services to many renowned multinational and Indian corporations.  <br><br>
@@ -2154,7 +2155,8 @@ She brings more than just expertise, she brings perspective. Whether it's steeri
 `
     },
     {
-        desination: "Vice President (Business Development)",
+        desination: "Vice President",
+        desination2: "(Business Development)",
         name: "Aditya Goel",
         image: "img/founders/fond66.jpg",
         content: `
@@ -2166,7 +2168,8 @@ Aditya's leadership is defined by clarity, discretion, and operational depth. Ra
         `
     },
     {
-        desination: "Executive Lead (Middle East Region)",
+        desination: "Executive Lead",
+        desination2: "(Middle East Region)",
         name: "Yaman Rizvi",
         image: "img/founders/yaman-rizvi.jpg",
         content: `
@@ -2182,12 +2185,26 @@ function initTabSwitchingContainer1() {
     const imageElement1 = document.getElementById('tab-content-image');
     const mobileNameElement1 = document.querySelector('.tab-content-name-mobile');
     const designationElement1 = document.getElementById('tab-content-designation');
+    const designationElement2 = document.getElementById('tab-content-designation2');
 
     if (!container1Tabs.length || !textElement1 || !imageElement1) return;
 
     // Set initial designation
     if (designationElement1 && tabContentData[0] && tabContentData[0].desination) {
         designationElement1.textContent = tabContentData[0].desination;
+        designationElement1.style.opacity = '1';
+        designationElement1.style.transform = 'translateY(0)';
+    }
+    // Set initial designation2
+    if (designationElement2 && tabContentData[0]) {
+        if (tabContentData[0].desination2) {
+            designationElement2.textContent = tabContentData[0].desination2;
+            designationElement2.style.display = 'block';
+            designationElement2.style.opacity = '1';
+            designationElement2.style.transform = 'translateY(0)';
+        } else {
+            designationElement2.style.display = 'none';
+        }
     }
 
     function switchTabContainer1(tabIndex) {
@@ -2220,6 +2237,10 @@ function initTabSwitchingContainer1() {
             designationElement1.style.opacity = '0';
             designationElement1.style.transform = 'translateY(-10px)';
         }
+        if (designationElement2) {
+            designationElement2.style.opacity = '0';
+            designationElement2.style.transform = 'translateY(-10px)';
+        }
 
         // Update content after fade out
         setTimeout(() => {
@@ -2228,12 +2249,23 @@ function initTabSwitchingContainer1() {
             imageElement1.alt = tabData.name;
             if (mobileNameElement1) mobileNameElement1.textContent = tabData.name;
             if (designationElement1 && tabData.desination) designationElement1.textContent = tabData.desination;
+            
+            // Handle designation2 - show if exists, hide if not
+            if (designationElement2) {
+                if (tabData.desination2) {
+                    designationElement2.textContent = tabData.desination2;
+                    designationElement2.style.display = 'block';
+                } else {
+                    designationElement2.style.display = 'none';
+                }
+            }
 
             // Reset transform for fade in
             textElement1.style.transform = 'translateY(10px)';
             imageElement1.style.transform = 'translateY(10px)';
             if (mobileNameElement1) mobileNameElement1.style.transform = 'translateY(10px)';
             if (designationElement1) designationElement1.style.transform = 'translateY(10px)';
+            if (designationElement2 && tabData.desination2) designationElement2.style.transform = 'translateY(10px)';
 
             // Fade in and slide up new content
             requestAnimationFrame(() => {
@@ -2249,6 +2281,10 @@ function initTabSwitchingContainer1() {
                     if (designationElement1) {
                         designationElement1.style.opacity = '1';
                         designationElement1.style.transform = 'translateY(0)';
+                    }
+                    if (designationElement2 && tabData.desination2) {
+                        designationElement2.style.opacity = '1';
+                        designationElement2.style.transform = 'translateY(0)';
                     }
                 }, 10);
             });
