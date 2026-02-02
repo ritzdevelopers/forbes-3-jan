@@ -1951,54 +1951,271 @@ function smoothScrollTo(element, targetScroll, duration = 500) {
     function animateScroll(currentTime) {
         const elapsed = currentTime - startTime;
         const progress = Math.min(elapsed / duration, 1);
-        
+
         // Easing function (ease-in-out)
-        const ease = progress < 0.5 
-            ? 2 * progress * progress 
+        const ease = progress < 0.5
+            ? 2 * progress * progress
             : 1 - Math.pow(-2 * progress + 2, 2) / 2;
-        
+
         element.scrollLeft = startScroll + (distance * ease);
-        
+
         if (progress < 1) {
             requestAnimationFrame(animateScroll);
         }
     }
-    
+
     requestAnimationFrame(animateScroll);
 }
 
-let cardWidth = document.querySelector('.slCard')?.offsetWidth || 428;
-const gap = 16; // gap-4 = 16px
-const scrollDistance = cardWidth + gap;
+// Swiper Advisor Slider Initialization
+let advisorSwiper = null;
 
-function leftSliderNavigation() {
-    const sliderContainer = document.querySelector('.slider-image-container');
-    if (!sliderContainer) return;
-    
-    const currentScroll = sliderContainer.scrollLeft;
-    const targetScroll = currentScroll - scrollDistance;
-    
-    // Ensure we can scroll left even from the start position
-    // This allows the first card to move to the right when clicking left
-    const finalTarget = Math.max(0, targetScroll);
-    smoothScrollTo(sliderContainer, finalTarget);
-}
-
-function rightSliderNavigation() {
-    const sliderContainer = document.querySelector('.slider-image-container');
-    if (!sliderContainer) return;
-    
-    const currentScroll = sliderContainer.scrollLeft;
-    const maxScroll = sliderContainer.scrollWidth - sliderContainer.clientWidth;
-    const targetScroll = Math.min(maxScroll, currentScroll + scrollDistance);
-    
-    smoothScrollTo(sliderContainer, targetScroll);
-}
-
-// Update cardWidth on window resize
-window.addEventListener('resize', () => {
-    const card = document.querySelector('.slCard');
-    if (card) {
-        cardWidth = card.offsetWidth;
+function handleCardActivation(swiperInstance) {
+    // Only apply on xl screens (1280px and above)
+    if (window.innerWidth < 1280) {
+        return;
     }
+
+    if (!swiperInstance || !swiperInstance.slides) return;
+
+    const sliderContainer = document.querySelector('.slider-image-container');
+    if (!sliderContainer) return;
+
+    const containerRect = sliderContainer.getBoundingClientRect();
+    const containerCenter = containerRect.left + containerRect.width / 2;
+
+    let closestCard = null;
+    let closestDistance = Infinity;
+
+    // Find the card closest to the center
+    swiperInstance.slides.forEach((slide, index) => {
+        const card = slide.querySelector('.slCard');
+        if (!card) return;
+
+        const cardRect = card.getBoundingClientRect();
+        const cardCenter = cardRect.left + cardRect.width / 2;
+        const distance = Math.abs(cardCenter - containerCenter);
+
+        if (distance < closestDistance) {
+            closestDistance = distance;
+            closestCard = card;
+        }
+    });
+
+    // Apply classes to all cards with requestAnimationFrame for smoothness
+    requestAnimationFrame(() => {
+        swiperInstance.slides.forEach((slide) => {
+            const card = slide.querySelector('.slCard');
+            if (!card) return;
+
+            // Get the image container (first direct child div)
+            const imageDiv = card.children[0];
+            // Get the bottom content container (last direct child div)
+            const bottomDiv = card.children[card.children.length - 1];
+
+            if (card === closestCard) {
+                // Active card - center card
+                if (imageDiv && imageDiv.tagName === 'DIV') {
+                    imageDiv.classList.remove('deactivecardImg');
+                    imageDiv.classList.add('activecardImg');
+                }
+                if (bottomDiv && bottomDiv.tagName === 'DIV') {
+                    bottomDiv.classList.remove('deactiveCardBtm');
+                    bottomDiv.classList.add('activeCardBtm');
+                    // Add text-white class for active card
+                    const textElements = bottomDiv.querySelectorAll('h6, p');
+                    textElements.forEach(el => el.classList.add('text-white'));
+                }
+            } else {
+                // Deactive cards - all others
+                if (imageDiv && imageDiv.tagName === 'DIV') {
+                    imageDiv.classList.remove('activecardImg');
+                    imageDiv.classList.add('deactivecardImg');
+                }
+                if (bottomDiv && bottomDiv.tagName === 'DIV') {
+                    bottomDiv.classList.remove('activeCardBtm');
+                    bottomDiv.classList.add('deactiveCardBtm');
+                    // Remove text-white class from deactive cards
+                    const textElements = bottomDiv.querySelectorAll('h6, p');
+                    textElements.forEach(el => el.classList.remove('text-white'));
+                }
+            }
+        });
+    });
+}
+
+// Initialize Swiper Advisor Slider
+function initAdvisorSwiper() {
+    const swiperElement = document.querySelector('.advisorSwiper');
+    if (!swiperElement) return;
+
+    advisorSwiper = new Swiper('.advisorSwiper', {
+        slidesPerView: 'auto',
+        spaceBetween: 12,
+        centeredSlides: false,
+        loop: true,
+        loopAdditionalSlides: 2,
+        speed: 800,
+        easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+        breakpoints: {
+            0: {
+                spaceBetween: 12,
+            },
+            640: {
+                spaceBetween: 16,
+            },
+        },
+        navigation: {
+            nextEl: '#advisor-swiper-next',
+            prevEl: '#advisor-swiper-prev',
+        },
+        on: {
+            init: function () {
+                setTimeout(() => {
+                    handleCardActivation(this);
+                }, 200);
+            },
+            slideChangeTransitionStart: function () {
+                // Start transition smoothly
+                handleCardActivation(this);
+            },
+            slideChangeTransitionEnd: function () {
+                // Finalize after transition completes
+                setTimeout(() => {
+                    handleCardActivation(this);
+                }, 50);
+            },
+            transitionEnd: function () {
+                // Ensure classes are applied after full transition
+                setTimeout(() => {
+                    handleCardActivation(this);
+                }, 100);
+            },
+        },
+    });
+}
+
+// Initialize on page load
+window.addEventListener('load', () => {
+    initAdvisorSwiper();
+});
+
+// Reinitialize on window resize
+window.addEventListener('resize', () => {
+    if (advisorSwiper) {
+        setTimeout(() => {
+            handleCardActivation(advisorSwiper);
+        }, 100);
+    }
+});
+
+// Tab Content Data
+const tabContentData = [
+    {
+        name: "Arun Kumar Sharma",
+        image: "img/founders/fond11.jpg",
+        content: `He is a retired senior Indian Police Services (IPS) officer from the 1987 batch, Gujarat cadre, who has served in various positions including Additional Director of the Central Bureau of Investigation (CBI). He has held several positions of distinction and important responsibilities and has a remarkable record of service. He has been honoured with the President’s Police Medal for Distinguished Service and awarded the Indian Police Medal for Meritorious Service.  <br><br>
+
+With over 34 years of expertise, he has held a pivotal role in investigations of bank and security fraud cases and also played an important advisory role in stressed asset management. He has attained specialisation in restructuring, management, and recovery of distressed assets. His acumen in strategy and planning serves as a guiding force for the organisation and helps in formulating optimal future action plans. <br><br>
+
+He also lends his expertise in engaging with law enforcement agencies, adeptly addressing jurisdictional issues and overcoming roadblocks to expedite ongoing matters within the organisation. His extensive experience includes effectively managing public order and contributing to decision-making on vigilance and policy matters. He is currently handling and demonstrating a profound interest and active involvement in the real estate sector, which is the second-largest economy in India.`
+    },
+    {
+        name: "Avdhesh Kumar Goel",
+        image: "img/founders/fond44.jpg",
+        content: `Dynamic executive leader with more than 35 years of distinguished expertise spanning finance, regulatory compliance, corporate governance, strategic project management, and real estate development. A highly accomplished Chartered Accountant, Cost & Works Accountant, and Company Secretary, Mr. Goel has provided strategic financial advisory, audit, and restructuring services to many renowned multinational and Indian corporations.  <br><br>
+        
+        Since transitioning into real estate in 2006, he has strategically shaped successful residential, commercial, IT, and farmhouse projects. With comprehensive experience in project development and marketing, Mr. Goel excels at overseeing end-to-end execution of complex developments, emphasizing financial efficiency and innovative, market-relevant solutions.  <br><br>
+He brings in the Core Competencies of Strategic Leadership & Corporate Governance, Real Estate Development & Project Management, Financial Analysis & Risk Management, Stakeholder Engagement & Partnership Building, Business Structuring & Regulatory Compliance, Investment Strategy & Capital Markets. <br><br>
+He brings in deep expertise in financial advisory, regulatory compliance, and corporate governance, followed by more than 20 years in real estate development and project leadership. He has led development of innovative residential, commercial, IT space, and farmhouse projects in Delhi NCR region with a focus on market-driven growth and expansion. He specializes in distressed asset acquisitions, land aggregation, legal documentation of real estate projects, and investment advisory, consistently delivering high-impact urban development projects.
+
+        `
+    },
+    {
+        name: "Mona Vij",
+        image: "img/founders/fond21.jpg",
+        content: `
+       With over 25 years of extensive and diverse experience, she has worked in real estate, project management, marketing communication, and brand and business development. She has consistently demonstrated success in formulating strategies for brand launches and establishing a strong market presence, along with creating aspirational brand images post-launch.  <br><br>
+
+She is strong in innovation, having pioneered the concept of in-film movie tie-ups at India’s leading telecom operator, Airtel—a concept that was subsequently adopted by others within and beyond the industry. Additionally, she has established an international initiative that fosters innovation in the telecom sector among youth and has several other groundbreaking initiatives to her credit. <br><br>
+
+In recent years, her focus and involvement have been in the real estate sector. Notably, she played a key role in securing the Indirapuram Habitat Centre project, a distinctive venture encompassing socio-cultural, recreational, and commercial aspects, spanning an expansive area of more than 2 million square feet. 
+`
+    },
+    {
+        name: "Aditya Goel",
+        image: "img/founders/fond66.jpg",
+        content: `
+        Aditya Goel, Vice President- Business Development, Forbes Properties, brings over 10 years of experience in the real estate sector, built through consistent execution and a long-term operating mindset. He holds an LLB and a BBA with a specialisation in Real Estate and Urban Infrastructure, grounding his leadership in both commercial acumen and regulatory understanding.  <br><br>
+
+His career spans sales strategy, luxury real estate marketing, business development, portfolio advisory, and transaction structuring across high-value residential assets. Known for a sharp reading of market cycles and disciplined decision-making, he has worked closely with discerning homeowners, investors, and strategic partners in the premium and luxury segments. <br><br>
+
+Aditya’s leadership is defined by clarity, discretion, and operational depth. Rather than scale through noise, he has focused on building trust-led systems and sustainable growth. Under his direction, Forbes Properties reflects stability, refined execution, and a mature approach to luxury real estate driven by long-term value creation.`
+    },
+    {
+        name: "Mani Gupta",
+        image: "img/founders/fond31.jpg",
+        content: `It is always a privilege of working alongside a professional whose depth of experience and instinct for excellence have consistently elevated our collective vision. With over a decade immersed in the real estate industry, spanning hospitality, healthcare, and large-scale development, Mani embodies a rare synthesis of entrepreneurial drive and meticulous execution. Her ability to lead complex initiatives, craft meaningful client experiences, and cultivate high-value relationships has been instrumental in shaping the stature and substance of our projects. <br><br>
+She brings more than just expertise, she brings perspective. Whether it's steering promotional strategy, guiding narrative development, or overseeing cross-functional programs, her presence ensures that every endeavor is thoughtful, innovative, and aligned with long-term impact. Her leadership continues to set a benchmark within our organization – quietly powerful, unwaveringly strategic, and always a step ahead.
+`
+    }
+];
+
+// Tab Switching Functionality
+function initTabSwitching() {
+    const tabCards = document.querySelectorAll('.tab-card');
+    const nameElement = document.getElementById('tab-content-name');
+    const textElement = document.getElementById('tab-content-text');
+    const imageElement = document.getElementById('tab-content-image');
+
+    if (!tabCards.length || !nameElement || !textElement || !imageElement) return;
+
+    function switchTab(tabIndex) {
+        // Remove active class from all tabs
+        tabCards.forEach((tab, index) => {
+            if (index === tabIndex) {
+                tab.classList.remove('deactiveTabCard');
+                tab.classList.add('activeTabCard');
+            } else {
+                tab.classList.remove('activeTabCard');
+                tab.classList.add('deactiveTabCard');
+            }
+        });
+
+        // Get the data for the selected tab
+        const tabData = tabContentData[tabIndex];
+        if (!tabData) return;
+
+        // Fade out current content
+        nameElement.style.opacity = '0';
+        textElement.style.opacity = '0';
+        imageElement.style.opacity = '0';
+
+        // Update content after fade out
+        setTimeout(() => {
+            nameElement.textContent = tabData.name;
+            textElement.innerHTML = tabData.content;
+            imageElement.src = tabData.image;
+            imageElement.alt = tabData.name;
+
+            // Fade in new content
+            setTimeout(() => {
+                nameElement.style.opacity = '1';
+                textElement.style.opacity = '1';
+                imageElement.style.opacity = '1';
+            }, 50);
+        }, 250);
+    }
+
+    // Add click event listeners to all tabs
+    tabCards.forEach((tab, index) => {
+        tab.addEventListener('click', () => {
+            switchTab(index);
+        });
+    });
+}
+
+// Initialize tab switching on page load
+window.addEventListener('load', () => {
+    initTabSwitching();
 });

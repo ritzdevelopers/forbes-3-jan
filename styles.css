@@ -50,21 +50,155 @@
 /* Section 5 Leadership Cards - Responsive Fixes */
 @media (min-width: 1024px) and (max-width: 1279px) {
     /* lg screens: 3 columns with proper spacing */
-    .grid.grid-cols-3 > * {
+    .leadership-card-lg-responsive {
         max-width: 100%;
     }
 }
 
 @media (min-width: 1280px) {
     /* xl screens: 4 columns with original desktop width */
-    .grid.grid-cols-4 > * {
+    .leadership-card-xl-responsive {
         max-width: 294px;
     }
 }
 
 @media (min-width:1370px) {
-    .container {
-        max-width: 1200px !important;
+    .max-width-container-xl {
+        width: 1200px !important;
         margin: 0 auto !important;
+    }
+}
+
+.activecardImg {
+    opacity: 1 !important;
+    transition: opacity 0.2s ease-in-out, width 0.2s ease-in-out !important;
+}
+.activeCardBtm {
+    background-color: #BF4423 !important;
+    transition: background-color 0.2s ease-in-out !important;
+}
+
+.deactivecardImg {
+    opacity: 0.65 !important;
+    width: 408px !important;
+    transition: opacity 0.2s ease-in-out, width 0.2s ease-in-out !important;
+}
+.deactiveCardBtm {
+    background-color: transparent !important;
+    transition: background-color 0.2s ease-in-out !important;
+}
+
+/* Swiper Advisor Slider Styles */
+.advisorSwiper {
+    width: 100%;
+    padding: 0;
+}
+
+.advisorSwiper .swiper-wrapper {
+    display: flex;
+    align-items: center;
+    transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.advisorSwiper .swiper-slide {
+    width: auto;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Smooth transitions for card image containers */
+.slCard > div:first-child {
+    transition: opacity 0.6s ease-in-out, width 0.6s ease-in-out !important;
+}
+
+/* Smooth transitions for card bottom containers */
+.slCard > div:last-child {
+    transition: background-color 0.6s ease-in-out !important;
+}
+
+.slCard > div:last-child h6,
+.slCard > div:last-child p {
+    transition: color 0.6s ease-in-out !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+.activeCardBtm p {
+    color: #ffffff !important;
+    transition: color 0.6s ease-in-out !important;
+}
+.activeCardBtm h6 {
+    color: #ffffff !important;
+    transition: color 0.6s ease-in-out !important;
+}
+.deactiveCardBtm p {
+    color: #000000B2 !important;
+    transition: color 0.6s ease-in-out !important;
+}
+.deactiveCardBtm h6 {
+    color: #000000B2 !important;
+    transition: color 0.6s ease-in-out !important;
+}
+
+/* Section 5.5 Tab Card Styles */
+
+.activeTabCard { 
+    border: 1px solid #DFDFDF !important;
+}
+.activeTabCard div img {
+    opacity: 1 !important;
+    transition: opacity 0.6s ease-in-out !important;
+}
+.deactiveTabCard div img {
+    opacity: 0.65 !important;
+    transition: opacity 0.6s ease-in-out !important;
+}
+
+.activeTabCard h3 {
+    color: #000000 !important;
+    transition: color 0.6s ease-in-out !important;
+}
+.deactiveTabCard h3 {
+    color: #989696 !important;
+    transition: color 0.6s ease-in-out !important;
+}
+
+.activeTabCard .tabAbsDiv {
+    display: block !important;
+}
+.deactiveTabCard {
+    border: none !important;
+    border-bottom: 1px solid #DFDFDF !important;
+}
+.deactiveTabCard .tabAbsDiv {
+    display: none !important;
+}
+
+/* Tab Content Transitions */
+#tab-content-name,
+#tab-content-text,
+#tab-content-image {
+    transition: opacity 0.5s ease-in-out;
+}
+
+/* Responsive Tab Container - Hide scrollbar on mobile but keep scroll functionality */
+@media (max-width: 1023px) {
+    .tab-container-responsive {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
+    
+    .tab-container-responsive::-webkit-scrollbar {
+        display: none;  /* Chrome, Safari and Opera */
     }
 }
