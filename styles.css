@@ -111,6 +111,165 @@
     align-items: center;
 }
 
+/* New Advisor Swiper Styles */
+.advisor-swiper {
+    width: 100% !important;
+    padding: 20px 60px !important;
+    overflow: visible !important;
+}
+
+.advisor-swiper .swiper-wrapper {
+    position: relative !important;
+}
+
+.advisor-swiper .swiper-wrapper {
+    display: flex !important;
+    align-items: center !important;
+}
+
+.advisor-swiper .swiper-slide {
+    width: auto !important;
+    flex-shrink: 0 !important;
+    height: auto !important;
+}
+
+@media (max-width: 1024px) {
+    .advisor-swiper {
+        padding: 20px 55px;
+    }
+}
+
+@media (max-width: 768px) {
+    .advisor-swiper {
+        padding: 20px 50px;
+    }
+}
+
+@media (max-width: 640px) {
+    .advisor-swiper {
+        padding: 20px 45px;
+    }
+}
+
+.advisor-swiper .swiper-wrapper {
+    align-items: center;
+}
+
+.advisor-swiper .swiper-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+}
+
+.advisor-tab-card { 
+    border-bottom: 1px solid #DFDFDF;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+ 
+.advisor-tab-card.active-advisor-tab { 
+    border-bottom: 3px solid #BF4423;
+}
+
+.advisor-tab-card.active-advisor-tab .advisor-tab-indicator {
+    display: block !important;
+}
+
+.advisor-tab-card.active-advisor-tab h3 {
+    color: #000000;
+}
+
+.advisor-tab-card:not(.active-advisor-tab) h3 {
+    color: #989696;
+}
+
+.advisor-tab-card.active-advisor-tab div img {
+    opacity: 1;
+}
+
+.advisor-tab-card:not(.active-advisor-tab) div img {
+    opacity: 0.65;
+}
+
+/* Navigation Buttons */
+.advisor-swiper-button-prev,
+.advisor-swiper-button-next {
+    color: #000 !important;
+    background: white !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+    z-index: 30 !important;
+    pointer-events: auto !important;
+    cursor: pointer !important;
+    position: absolute !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    width: 40px !important;
+    height: 40px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 50% !important;
+    user-select: none !important;
+    -webkit-user-select: none !important;
+    touch-action: manipulation !important;
+}
+
+.advisor-swiper-button-prev {
+    left: 10px !important;
+}
+
+.advisor-swiper-button-next {
+    right: 10px !important;
+}
+
+.advisor-swiper-button-prev:hover,
+.advisor-swiper-button-next:hover {
+    background: #BF4423 !important;
+    color: white !important;
+}
+
+.advisor-swiper-button-prev.swiper-button-disabled,
+.advisor-swiper-button-next.swiper-button-disabled {
+    opacity: 0.35 !important;
+    cursor: not-allowed !important;
+    pointer-events: none !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .advisor-swiper {
+        padding: 20px 50px;
+    }
+    
+    .advisor-swiper-button-prev,
+    .advisor-swiper-button-next {
+        width: 35px !important;
+        height: 35px !important;
+    }
+}
+
+@media (max-width: 640px) {
+    .advisor-swiper {
+        padding: 20px 45px;
+    }
+    
+    .advisor-swiper-button-prev,
+    .advisor-swiper-button-next {
+        width: 32px !important;
+        height: 32px !important;
+    }
+}
+
+/* Advisor Content Transitions */
+#advisor-content-text,
+#advisor-content-image,
+#advisor-content-name,
+#advisor-content-designation {
+    transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out;
+}
+
 /* Smooth transitions for card image containers */
 .slCard > div:first-child {
     transition: opacity 0.6s ease-in-out, width 0.6s ease-in-out !important;

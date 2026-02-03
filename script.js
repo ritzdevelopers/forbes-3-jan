@@ -1457,37 +1457,6 @@ async function submitToGoogleSheets(form, sheetName, options = {}) {
     }
 }
 
-/**
- * Initialize form submission for a specific form
- * @param {string} formSelector - CSS selector for the form
- * @param {string} sheetName - Name of the Google Sheet tab
- * @param {Object} options - Optional callbacks
- */
-function initFormSubmission(formSelector, sheetName, options = {}) {
-    const form = document.querySelector(formSelector);
-    if (!form) {
-        console.warn(`Form not found: ${formSelector}`);
-        return;
-    }
-
-    console.log(`Form initialized: ${formSelector} with sheet: ${sheetName}`);
-
-    form.addEventListener('submit', async function (e) {
-        e.preventDefault();
-
-        // Basic validation
-        if (!form.checkValidity()) {
-            form.reportValidity();
-            return;
-        }
-
-        console.log(`Submitting form: ${formSelector} to sheet: ${sheetName}`);
-
-        // Submit to Google Sheets
-        await submitToGoogleSheets(form, sheetName, options);
-    });
-}
-
 // ============================================
 // CRM Submission Functions
 // ============================================
@@ -1936,179 +1905,6 @@ if (document.readyState === 'loading') {
     initAllForms();
 }
 
-function handleLocationClick() {
-    window.open('https://maps.app.goo.gl/kkHXtXQpW99wLbd36', '_blank');
-}
-
-console.log('Script loaded', window.innerWidth);
-
-// Smooth scroll helper function
-function smoothScrollTo(element, targetScroll, duration = 500) {
-    const startScroll = element.scrollLeft;
-    const distance = targetScroll - startScroll;
-    const startTime = performance.now();
-
-    function animateScroll(currentTime) {
-        const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-
-        // Easing function (ease-in-out)
-        const ease = progress < 0.5
-            ? 2 * progress * progress
-            : 1 - Math.pow(-2 * progress + 2, 2) / 2;
-
-        element.scrollLeft = startScroll + (distance * ease);
-
-        if (progress < 1) {
-            requestAnimationFrame(animateScroll);
-        }
-    }
-
-    requestAnimationFrame(animateScroll);
-}
-
-// Swiper Advisor Slider Initialization
-let advisorSwiper = null;
-
-function handleCardActivation(swiperInstance) {
-    // Only apply on xl screens (1280px and above)
-    if (window.innerWidth < 1280) {
-        return;
-    }
-
-    if (!swiperInstance || !swiperInstance.slides) return;
-
-    const sliderContainer = document.querySelector('.slider-image-container');
-    if (!sliderContainer) return;
-
-    const containerRect = sliderContainer.getBoundingClientRect();
-    const containerCenter = containerRect.left + containerRect.width / 2;
-
-    let closestCard = null;
-    let closestDistance = Infinity;
-
-    // Find the card closest to the center
-    swiperInstance.slides.forEach((slide, index) => {
-        const card = slide.querySelector('.slCard');
-        if (!card) return;
-
-        const cardRect = card.getBoundingClientRect();
-        const cardCenter = cardRect.left + cardRect.width / 2;
-        const distance = Math.abs(cardCenter - containerCenter);
-
-        if (distance < closestDistance) {
-            closestDistance = distance;
-            closestCard = card;
-        }
-    });
-
-    // Apply classes to all cards with requestAnimationFrame for smoothness
-    requestAnimationFrame(() => {
-        swiperInstance.slides.forEach((slide) => {
-            const card = slide.querySelector('.slCard');
-            if (!card) return;
-
-            // Get the image container (first direct child div)
-            const imageDiv = card.children[0];
-            // Get the bottom content container (last direct child div)
-            const bottomDiv = card.children[card.children.length - 1];
-
-            if (card === closestCard) {
-                // Active card - center card
-                if (imageDiv && imageDiv.tagName === 'DIV') {
-                    imageDiv.classList.remove('deactivecardImg');
-                    imageDiv.classList.add('activecardImg');
-                }
-                if (bottomDiv && bottomDiv.tagName === 'DIV') {
-                    bottomDiv.classList.remove('deactiveCardBtm');
-                    bottomDiv.classList.add('activeCardBtm');
-                    // Add text-white class for active card
-                    const textElements = bottomDiv.querySelectorAll('h6, p');
-                    textElements.forEach(el => el.classList.add('text-white'));
-                }
-            } else {
-                // Deactive cards - all others
-                if (imageDiv && imageDiv.tagName === 'DIV') {
-                    imageDiv.classList.remove('activecardImg');
-                    imageDiv.classList.add('deactivecardImg');
-                }
-                if (bottomDiv && bottomDiv.tagName === 'DIV') {
-                    bottomDiv.classList.remove('activeCardBtm');
-                    bottomDiv.classList.add('deactiveCardBtm');
-                    // Remove text-white class from deactive cards
-                    const textElements = bottomDiv.querySelectorAll('h6, p');
-                    textElements.forEach(el => el.classList.remove('text-white'));
-                }
-            }
-        });
-    });
-}
-
-// Initialize Swiper Advisor Slider
-function initAdvisorSwiper() {
-    const swiperElement = document.querySelector('.advisorSwiper');
-    if (!swiperElement) return;
-
-    advisorSwiper = new Swiper('.advisorSwiper', {
-        slidesPerView: 'auto',
-        spaceBetween: 12,
-        centeredSlides: false,
-        loop: true,
-        loopAdditionalSlides: 2,
-        speed: 800,
-        easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-        breakpoints: {
-            0: {
-                spaceBetween: 12,
-            },
-            640: {
-                spaceBetween: 16,
-            },
-        },
-        navigation: {
-            nextEl: '#advisor-swiper-next',
-            prevEl: '#advisor-swiper-prev',
-        },
-        on: {
-            init: function () {
-                setTimeout(() => {
-                    handleCardActivation(this);
-                }, 200);
-            },
-            slideChangeTransitionStart: function () {
-                // Start transition smoothly
-                handleCardActivation(this);
-            },
-            slideChangeTransitionEnd: function () {
-                // Finalize after transition completes
-                setTimeout(() => {
-                    handleCardActivation(this);
-                }, 50);
-            },
-            transitionEnd: function () {
-                // Ensure classes are applied after full transition
-                setTimeout(() => {
-                    handleCardActivation(this);
-                }, 100);
-            },
-        },
-    });
-}
-
-// Initialize on page load
-window.addEventListener('load', () => {
-    initAdvisorSwiper();
-});
-
-// Reinitialize on window resize
-window.addEventListener('resize', () => {
-    if (advisorSwiper) {
-        setTimeout(() => {
-            handleCardActivation(advisorSwiper);
-        }, 100);
-    }
-});
-
 // Tab Content Data
 const tabContentData = [
     {
@@ -2226,7 +2022,7 @@ function initTabSwitchingContainer1() {
         imageElement1.alt = tabData.name;
         if (mobileNameElement1) mobileNameElement1.textContent = tabData.name;
         if (designationElement1 && tabData.desination) designationElement1.textContent = tabData.desination;
-        
+
         // Handle designation2 - show if exists, hide if not
         if (designationElement2) {
             if (tabData.desination2) {
@@ -2249,465 +2045,344 @@ function initTabSwitchingContainer1() {
     });
 }
 
-// Tab Switching Functionality - Container 2 (tabs 3, 4)
-function initTabSwitchingContainer2() {
-    const container2Tabs = document.querySelectorAll('.tab-card[data-tab="3"], .tab-card[data-tab="4"]');
-    const textElement2 = document.getElementById('tab-content-text-2');
-    const imageElement2 = document.getElementById('tab-content-image-2');
-    const mobileNameElement2 = document.querySelector('.tab-content-name-mobile-2');
-
-    if (!container2Tabs.length || !textElement2 || !imageElement2) return;
-
-    function switchTabContainer2(tabIndex) {
-        // Remove active class from container 2 tabs only
-        container2Tabs.forEach((tab) => {
-            const tabDataIndex = parseInt(tab.getAttribute('data-tab'));
-            if (tabDataIndex === tabIndex) {
-                tab.classList.remove('deactiveTabCard');
-                tab.classList.add('activeTabCard');
-            } else {
-                tab.classList.remove('activeTabCard');
-                tab.classList.add('deactiveTabCard');
-            }
-        });
-
-        // Get the data for the selected tab
-        const tabData = tabContentData[tabIndex];
-        if (!tabData) return;
-
-        // Fade out and slide up current content
-        textElement2.style.opacity = '0';
-        textElement2.style.transform = 'translateY(-10px)';
-        imageElement2.style.opacity = '0';
-        imageElement2.style.transform = 'translateY(-10px)';
-        if (mobileNameElement2) {
-            mobileNameElement2.style.opacity = '0';
-            mobileNameElement2.style.transform = 'translateY(-10px)';
-        }
-
-        // Update content after fade out
-        setTimeout(() => {
-            textElement2.innerHTML = tabData.content;
-            imageElement2.src = tabData.image;
-            imageElement2.alt = tabData.name;
-            if (mobileNameElement2) mobileNameElement2.textContent = tabData.name;
-
-            // Reset transform for fade in
-            textElement2.style.transform = 'translateY(10px)';
-            imageElement2.style.transform = 'translateY(10px)';
-            if (mobileNameElement2) mobileNameElement2.style.transform = 'translateY(10px)';
-
-            // Fade in and slide up new content
-            requestAnimationFrame(() => {
-                setTimeout(() => {
-                    textElement2.style.opacity = '1';
-                    textElement2.style.transform = 'translateY(0)';
-                    imageElement2.style.opacity = '1';
-                    imageElement2.style.transform = 'translateY(0)';
-                    if (mobileNameElement2) {
-                        mobileNameElement2.style.opacity = '1';
-                        mobileNameElement2.style.transform = 'translateY(0)';
-                    }
-                }, 10);
-            });
-        }, 300);
-    }
-
-    // Add click event listeners to container 2 tabs
-    container2Tabs.forEach((tab) => {
-        tab.addEventListener('click', () => {
-            const tabIndex = parseInt(tab.getAttribute('data-tab'));
-            if (!isNaN(tabIndex) && tabIndex >= 3 && tabIndex <= 4) {
-                switchTabContainer2(tabIndex);
-            }
-        });
-    });
-}
-
-// Advisor Tab Content Data (8 advisors)
-const advisorTabContentData = [
-    {
-        name: "Anil Kumar Yadav",
-        image: "img/advisor/advisor5.jpg",
-        content: `A Senior legal professional recognized for judicial excellence, administrative leadership, and legal reform initiatives, including Mega Lok Adalats. <br><br>
-
-With extensive experience in the legal domain, Anil Kumar Yadav has demonstrated exceptional expertise in handling complex judicial matters and administrative responsibilities. His leadership has been instrumental in driving legal reform initiatives that have significantly improved access to justice and streamlined legal processes. <br><br>
-
-His commitment to judicial excellence and administrative efficiency has earned him recognition across the legal community. Through initiatives like Mega Lok Adalats, he has worked tirelessly to make justice more accessible and efficient for all citizens.`
-    },
-    {
-        name: "Dr. Arindam Chaudhuri",
-        image: "img/advisor/advisor9.jpg",
-        content: `M.A. Economics, Ph.D. Distinguished Economic Fellow specializing in advanced economic research and policy analysis. In-depth expertise in India's real estate trends. <br><br>
-
-Dr. Arindam Chaudhuri brings a wealth of academic and practical knowledge to economic analysis and policy formulation. His research has contributed significantly to understanding market dynamics, particularly in the real estate sector. With a Ph.D. in Economics, he combines rigorous academic training with practical insights into India's economic landscape. <br><br>
-
-His expertise in economic research and policy analysis makes him an invaluable advisor for strategic decision-making. He has a deep understanding of market trends, economic indicators, and their implications for real estate development and investment strategies.`
-    },
-    {
-        name: "Rakesh Kumar Jain",
-        image: "img/advisor/advisor3.jpg",
-        content: `Executive Director with a career spanning three decades. Rakesh has held key positions in India's premier real estate companies like Ansals, SuperTech. <br><br>
-
-With over thirty years of experience in the real estate industry, Rakesh Kumar Jain has been instrumental in shaping some of India's most significant real estate developments. His tenure at leading companies like Ansals and SuperTech has given him comprehensive insights into project development, market dynamics, and strategic planning. <br><br>
-
-His extensive experience across different segments of real estate development, from residential to commercial projects, provides valuable perspective on market trends, customer preferences, and operational excellence. His leadership and strategic vision continue to guide successful real estate ventures.`
-    },
-    {
-        name: "Rajiv K Anand",
-        image: "img/advisor/advisor2.jpg",
-        content: `Executive Director – FGP India. Rajiv K. Anand serves as Executive Director, bringing nearly three decades of experience across real estate development, capital advisory, and strategic planning. <br><br>
-
-With extensive expertise in real estate development and capital markets, Rajiv has been instrumental in shaping successful projects and investment strategies. His deep understanding of market dynamics and financial structures enables him to provide strategic guidance for complex real estate ventures. <br><br>
-
-His leadership in capital advisory has helped numerous projects secure funding and achieve financial success. Through his comprehensive approach to real estate development, he continues to drive innovation and excellence in the industry.`
-    },
-    {
-        name: "DGP Sanjay Kumar",
-        image: "img/advisor/advisor8.jpg",
-        content: `1985 batch Indian Police Service (IPS) Officer of the Himachal Pradesh cadre had got his Masters Degree in Physics with distinction from Delhi University in 1982. <br><br>
-
-With a distinguished career in law enforcement spanning several decades, DGP Sanjay Kumar brings exceptional leadership and strategic thinking to the advisory panel. His background in physics combined with extensive police service has equipped him with analytical skills and a deep understanding of complex organizational challenges. <br><br>
-
-His experience in managing large-scale operations and strategic planning makes him a valuable advisor for organizational development and risk management. Through his leadership, he has demonstrated commitment to excellence and public service.`
-    },
-    {
-        name: "Gen S. M. Mehta",
-        image: "img/advisor/advisor6.jpg",
-        content: `A highly decorated officer. An accomplished thinker and eminent engineer, he is a Fellow of the Institution of Electronics and Telecommunication Engineers (IETE). <br><br>
-
-Gen S. M. Mehta brings a unique combination of military leadership and technical expertise to the advisory panel. His distinguished military career, combined with his engineering background, provides him with exceptional problem-solving capabilities and strategic vision. <br><br>
-
-His recognition as a Fellow of IETE underscores his technical excellence and contributions to the field of electronics and telecommunications. Through his leadership and technical expertise, he continues to provide valuable insights for strategic planning and technological advancement.`
-    },
-    {
-        name: "Subhal Garg",
-        image: "img/advisor/advisor4.jpg",
-        content: `Executive Director - FGP India. A Chartered Accountant by training, Subhal brings over two decades of experience across finance, banking, infrastructure, and real estate. <br><br>
-
-With his strong financial background and extensive experience in banking and infrastructure, Subhal has been a key driver of strategic financial planning and execution. His expertise spans across multiple sectors, providing him with a comprehensive understanding of complex financial structures and market dynamics. <br><br>
-
-His leadership in finance and real estate has enabled successful project execution and strategic growth. Through his analytical approach and deep sector knowledge, he continues to contribute significantly to organizational success and industry advancement.`
-    },
-    {
-        name: "Vishal Sahni",
-        image: "img/advisor/advisor1.jpg",
-        content: `Senior Vice President Business Development. With over three decades of professional exposure across real estate, telecom, and strategic sales leadership. <br><br>
-
-Vishal Sahni brings extensive experience in business development and strategic sales across multiple industries. His three decades of professional experience have given him deep insights into market dynamics, customer relationships, and strategic growth initiatives. <br><br>
-
-His expertise in real estate and telecom sectors, combined with his leadership in business development, makes him an invaluable advisor for strategic planning and market expansion. Through his comprehensive understanding of business dynamics, he continues to drive growth and success.`
-    }
-];
-
-// Tab Switching Functionality - Container 3 (Advisors Container 1 - tabs 5, 6, 7)
-function initTabSwitchingContainer3() {
-    const container3Tabs = document.querySelectorAll('.tab-card[data-tab="5"], .tab-card[data-tab="6"], .tab-card[data-tab="7"]');
-    const textElement3 = document.getElementById('tab-content-text-3');
-    const imageElement3 = document.getElementById('tab-content-image-3');
-    const mobileNameElement3 = document.querySelector('.tab-content-name-mobile-3');
-    const designationElement3 = document.getElementById('tab-content-designation-3');
-
-    if (!container3Tabs.length || !textElement3 || !imageElement3) return;
-
-    // Ensure initial content is visible
-    textElement3.style.opacity = '1';
-    textElement3.style.transform = 'translateY(0)';
-    imageElement3.style.opacity = '1';
-    imageElement3.style.transform = 'translateY(0)';
-    if (mobileNameElement3) {
-        mobileNameElement3.style.opacity = '1';
-        mobileNameElement3.style.transform = 'translateY(0)';
-    }
-    if (designationElement3) {
-        designationElement3.style.opacity = '1';
-        designationElement3.style.transform = 'translateY(0)';
-    }
-
-    function switchTabContainer3(tabIndex) {
-        // Map tabIndex to advisor data array (5->0, 6->1, 7->2)
-        const advisorIndex = tabIndex - 5;
-
-        // Remove active class from container 3 tabs only
-        container3Tabs.forEach((tab) => {
-            const tabDataIndex = parseInt(tab.getAttribute('data-tab'));
-            if (tabDataIndex === tabIndex) {
-                tab.classList.remove('deactiveTabCard');
-                tab.classList.add('activeTabCard');
-            } else {
-                tab.classList.remove('activeTabCard');
-                tab.classList.add('deactiveTabCard');
-            }
-        });
-
-        // Get the data for the selected tab
-        const tabData = advisorTabContentData[advisorIndex];
-        if (!tabData) return;
-
-        // Fade out and slide up current content
-        textElement3.style.opacity = '0';
-        textElement3.style.transform = 'translateY(-10px)';
-        imageElement3.style.opacity = '0';
-        imageElement3.style.transform = 'translateY(-10px)';
-        if (mobileNameElement3) {
-            mobileNameElement3.style.opacity = '0';
-            mobileNameElement3.style.transform = 'translateY(-10px)';
-        }
-        if (designationElement3) {
-            designationElement3.style.opacity = '0';
-            designationElement3.style.transform = 'translateY(-10px)';
-        }
-
-        // Update content after fade out
-        setTimeout(() => {
-            textElement3.innerHTML = tabData.content;
-            imageElement3.src = tabData.image;
-            imageElement3.alt = tabData.name;
-            if (mobileNameElement3) mobileNameElement3.textContent = tabData.name;
-            if (designationElement3 && tabData.desination) designationElement3.textContent = tabData.desination;
-
-            // Reset transform for fade in
-            textElement3.style.transform = 'translateY(10px)';
-            imageElement3.style.transform = 'translateY(10px)';
-            if (mobileNameElement3) mobileNameElement3.style.transform = 'translateY(10px)';
-            if (designationElement3) designationElement3.style.transform = 'translateY(10px)';
-
-            // Fade in and slide up new content
-            requestAnimationFrame(() => {
-                setTimeout(() => {
-                    textElement3.style.opacity = '1';
-                    textElement3.style.transform = 'translateY(0)';
-                    imageElement3.style.opacity = '1';
-                    imageElement3.style.transform = 'translateY(0)';
-                    if (mobileNameElement3) {
-                        mobileNameElement3.style.opacity = '1';
-                        mobileNameElement3.style.transform = 'translateY(0)';
-                    }
-                    if (designationElement3) {
-                        designationElement3.style.opacity = '1';
-                        designationElement3.style.transform = 'translateY(0)';
-                    }
-                }, 10);
-            });
-        }, 300);
-    }
-
-    // Add click event listeners to container 3 tabs
-    container3Tabs.forEach((tab) => {
-        tab.addEventListener('click', () => {
-            const tabIndex = parseInt(tab.getAttribute('data-tab'));
-            if (!isNaN(tabIndex) && tabIndex >= 5 && tabIndex <= 7) {
-                switchTabContainer3(tabIndex);
-            }
-        });
-    });
-}
-
-// Tab Switching Functionality - Container 4 (Advisors Container 2 - tabs 8, 9, 10)
-function initTabSwitchingContainer4() {
-    const container4Tabs = document.querySelectorAll('.tab-card[data-tab="8"], .tab-card[data-tab="9"], .tab-card[data-tab="10"]');
-    const textElement4 = document.getElementById('tab-content-text-4');
-    const imageElement4 = document.getElementById('tab-content-image-4');
-    const mobileNameElement4 = document.querySelector('.tab-content-name-mobile-4');
-
-    if (!container4Tabs.length || !textElement4 || !imageElement4) return;
-
-    // Ensure initial content is visible
-    textElement4.style.opacity = '1';
-    textElement4.style.transform = 'translateY(0)';
-    imageElement4.style.opacity = '1';
-    imageElement4.style.transform = 'translateY(0)';
-    if (mobileNameElement4) {
-        mobileNameElement4.style.opacity = '1';
-        mobileNameElement4.style.transform = 'translateY(0)';
-    }
-
-    function switchTabContainer4(tabIndex) {
-        // Map tabIndex to advisor data array (8->3, 9->4, 10->5)
-        const advisorIndex = tabIndex - 5;
-
-        // Remove active class from container 4 tabs only
-        container4Tabs.forEach((tab) => {
-            const tabDataIndex = parseInt(tab.getAttribute('data-tab'));
-            if (tabDataIndex === tabIndex) {
-                tab.classList.remove('deactiveTabCard');
-                tab.classList.add('activeTabCard');
-            } else {
-                tab.classList.remove('activeTabCard');
-                tab.classList.add('deactiveTabCard');
-            }
-        });
-
-        // Get the data for the selected tab
-        const tabData = advisorTabContentData[advisorIndex];
-        if (!tabData) return;
-
-        // Fade out and slide up current content
-        textElement4.style.opacity = '0';
-        textElement4.style.transform = 'translateY(-10px)';
-        imageElement4.style.opacity = '0';
-        imageElement4.style.transform = 'translateY(-10px)';
-        if (mobileNameElement4) {
-            mobileNameElement4.style.opacity = '0';
-            mobileNameElement4.style.transform = 'translateY(-10px)';
-        }
-
-        // Update content after fade out
-        setTimeout(() => {
-            textElement4.innerHTML = tabData.content;
-            imageElement4.src = tabData.image;
-            imageElement4.alt = tabData.name;
-            if (mobileNameElement4) mobileNameElement4.textContent = tabData.name;
-
-            // Reset transform for fade in
-            textElement4.style.transform = 'translateY(10px)';
-            imageElement4.style.transform = 'translateY(10px)';
-            if (mobileNameElement4) mobileNameElement4.style.transform = 'translateY(10px)';
-
-            // Fade in and slide up new content
-            requestAnimationFrame(() => {
-                setTimeout(() => {
-                    textElement4.style.opacity = '1';
-                    textElement4.style.transform = 'translateY(0)';
-                    imageElement4.style.opacity = '1';
-                    imageElement4.style.transform = 'translateY(0)';
-                    if (mobileNameElement4) {
-                        mobileNameElement4.style.opacity = '1';
-                        mobileNameElement4.style.transform = 'translateY(0)';
-                    }
-                }, 10);
-            });
-        }, 300);
-    }
-
-    // Add click event listeners to container 4 tabs
-    container4Tabs.forEach((tab) => {
-        tab.addEventListener('click', () => {
-            const tabIndex = parseInt(tab.getAttribute('data-tab'));
-            if (!isNaN(tabIndex) && tabIndex >= 8 && tabIndex <= 10) {
-                switchTabContainer4(tabIndex);
-            }
-        });
-    });
-}
-
-// Tab Switching Functionality - Container 5 (Advisors Container 3 - tabs 11, 12)
-function initTabSwitchingContainer5() {
-    const container5Tabs = document.querySelectorAll('.tab-card[data-tab="11"], .tab-card[data-tab="12"]');
-    const textElement5 = document.getElementById('tab-content-text-5');
-    const imageElement5 = document.getElementById('tab-content-image-5');
-    const mobileNameElement5 = document.querySelector('.tab-content-name-mobile-5');
-    const designationElement5 = document.getElementById('tab-content-designation-5');
-
-    if (!container5Tabs.length || !textElement5 || !imageElement5) return;
-
-    // Ensure initial content is visible
-    textElement5.style.opacity = '1';
-    textElement5.style.transform = 'translateY(0)';
-    imageElement5.style.opacity = '1';
-    imageElement5.style.transform = 'translateY(0)';
-    if (mobileNameElement5) {
-        mobileNameElement5.style.opacity = '1';
-        mobileNameElement5.style.transform = 'translateY(0)';
-    }
-    if (designationElement5) {
-        designationElement5.style.opacity = '1';
-        designationElement5.style.transform = 'translateY(0)';
-        // Set initial designation for Subhal Garg (index 6 in advisorTabContentData)
-        if (advisorTabContentData[6] && advisorTabContentData[6].desination) {
-            designationElement5.textContent = advisorTabContentData[6].desination;
-        }
-    }
-
-    function switchTabContainer5(tabIndex) {
-        // Map tabIndex to advisor data array (11->6, 12->7)
-        const advisorIndex = tabIndex - 5;
-
-        // Remove active class from container 5 tabs only
-        container5Tabs.forEach((tab) => {
-            const tabDataIndex = parseInt(tab.getAttribute('data-tab'));
-            if (tabDataIndex === tabIndex) {
-                tab.classList.remove('deactiveTabCard');
-                tab.classList.add('activeTabCard');
-            } else {
-                tab.classList.remove('activeTabCard');
-                tab.classList.add('deactiveTabCard');
-            }
-        });
-
-        // Get the data for the selected tab
-        const tabData = advisorTabContentData[advisorIndex];
-        if (!tabData) return;
-
-        // Fade out and slide up current content
-        textElement5.style.opacity = '0';
-        textElement5.style.transform = 'translateY(-10px)';
-        imageElement5.style.opacity = '0';
-        imageElement5.style.transform = 'translateY(-10px)';
-        if (mobileNameElement5) {
-            mobileNameElement5.style.opacity = '0';
-            mobileNameElement5.style.transform = 'translateY(-10px)';
-        }
-        if (designationElement5) {
-            designationElement5.style.opacity = '0';
-            designationElement5.style.transform = 'translateY(-10px)';
-        }
-
-        // Update content after fade out
-        setTimeout(() => {
-            textElement5.innerHTML = tabData.content;
-            imageElement5.src = tabData.image;
-            imageElement5.alt = tabData.name;
-            if (mobileNameElement5) mobileNameElement5.textContent = tabData.name;
-            if (designationElement5 && tabData.desination) designationElement5.textContent = tabData.desination;
-
-            // Reset transform for fade in
-            textElement5.style.transform = 'translateY(10px)';
-            imageElement5.style.transform = 'translateY(10px)';
-            if (mobileNameElement5) mobileNameElement5.style.transform = 'translateY(10px)';
-            if (designationElement5) designationElement5.style.transform = 'translateY(10px)';
-
-            // Fade in and slide up new content
-            requestAnimationFrame(() => {
-                setTimeout(() => {
-                    textElement5.style.opacity = '1';
-                    textElement5.style.transform = 'translateY(0)';
-                    imageElement5.style.opacity = '1';
-                    imageElement5.style.transform = 'translateY(0)';
-                    if (mobileNameElement5) {
-                        mobileNameElement5.style.opacity = '1';
-                        mobileNameElement5.style.transform = 'translateY(0)';
-                    }
-                    if (designationElement5) {
-                        designationElement5.style.opacity = '1';
-                        designationElement5.style.transform = 'translateY(0)';
-                    }
-                }, 10);
-            });
-        }, 300);
-    }
-
-    // Add click event listeners to container 5 tabs
-    container5Tabs.forEach((tab) => {
-        tab.addEventListener('click', () => {
-            const tabIndex = parseInt(tab.getAttribute('data-tab'));
-            if (!isNaN(tabIndex) && (tabIndex === 11 || tabIndex === 12)) {
-                switchTabContainer5(tabIndex);
-            }
-        });
-    });
-}
-
 // Initialize all tab switching functions
 function initTabSwitching() {
     initTabSwitchingContainer1();
-    initTabSwitchingContainer2();
-    initTabSwitchingContainer3();
-    initTabSwitchingContainer4();
-    initTabSwitchingContainer5();
 }
 
 // Initialize tab switching on page load
 window.addEventListener('load', () => {
     initTabSwitching();
+});
+
+// ============================================
+// Navigation Functions
+// ============================================
+
+// Function to navigate to Home page (opens in new tab)
+function navigateToHome(event) {
+    if (event) {
+        event.preventDefault();
+    }
+    window.open('https://fgpindia.com/', '_blank');
+}
+
+// Function to navigate to Luxury & Clarity page (opens in new tab)
+function navigateToLuxuryClarity(event) {
+    if (event) {
+        event.preventDefault();
+    }
+    window.open('https://fgpindia.com/', '_blank');
+}
+
+// Function to navigate to Featured Project page (opens in new tab)
+function navigateToFeaturedProject(event) {
+    if (event) {
+        event.preventDefault();
+    }
+    window.open('https://fgpindia.com/fab-luxe/', '_blank');
+}
+
+// Function to scroll to top hero section with smooth scrolling
+function scrollToAboutUs(event) {
+    if (event) {
+        event.preventDefault();
+    }
+    const heroSection = document.querySelector('.s1');
+    if (heroSection) {
+        if (lenis) {
+            // Use Lenis smooth scroll if available
+            lenis.scrollTo(heroSection, {
+                offset: 0,
+                duration: 1.2,
+                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+            });
+        } else {
+            // Fallback to native smooth scroll
+            heroSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    } else {
+        // Fallback: scroll to top of page
+        if (lenis) {
+            lenis.scrollTo(0, {
+                duration: 1.2,
+                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+            });
+        } else {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    }
+}
+
+// Function to initialize navigation event listeners
+function initNavigation() {
+    // Home links
+    const homeLinks = document.querySelectorAll('.nav-home-link');
+    homeLinks.forEach(link => {
+        link.addEventListener('click', navigateToHome);
+    });
+
+    // Logo link
+    const logoLink = document.querySelector('.logo-link');
+    if (logoLink) {
+        logoLink.addEventListener('click', navigateToHome);
+    }
+
+    // Luxury & Clarity links
+    const luxuryLinks = document.querySelectorAll('.nav-luxury-link');
+    luxuryLinks.forEach(link => {
+        link.addEventListener('click', navigateToLuxuryClarity);
+    });
+
+    // Featured Project links
+    const featuredLinks = document.querySelectorAll('.nav-featured-link');
+    featuredLinks.forEach(link => {
+        link.addEventListener('click', navigateToFeaturedProject);
+    });
+
+    // About Us links
+    const aboutLinks = document.querySelectorAll('.nav-about-link');
+    aboutLinks.forEach(link => {
+        link.addEventListener('click', scrollToAboutUs);
+    });
+}
+
+// Initialize navigation on DOM content loaded
+document.addEventListener('DOMContentLoaded', () => {
+    initNavigation();
+});
+
+// ============================================
+// Advisors Panel Swiper Slider
+// ============================================
+
+// Advisor data (alphabetically sorted)
+const advisorsData = [
+    {
+        name: 'Anil Kumar Yadav',
+        image: 'img/advisor/advisor5.jpg',
+        designation: '',
+        content: 'A senior legal professional with over 30 years of experience as an Advocate and Judicial Officer. Practiced law since 1992, followed by distinguished service in the Uttar Pradesh Judicial Service from 2003 to 2021, holding key positions including Civil Judge (Senior Division), Chief Judicial Magistrate, Additional District & Sessions Judge, Special Judge (E.C. Act), and Secretary, District Legal Services Authority across multiple districts of Uttar Pradesh. Recognized for judicial excellence, administrative leadership, and legal reform initiatives, including Mega Lok Adalats, mediation, legal awareness programs, and digital court operations. Honoured with multiple Corona Warrior Awards and a Corona Warrior World Record for public service during the COVID-19 pandemic. Currently practicing as an Advocate, with interests in writing, poetry, singing, and social work.'
+    },
+    {
+        name: 'Dr. Arindam Chaudhuri',
+        image: 'img/advisor/advisor9.jpg',
+        designation: '',
+        content: 'Dr. Arindam Chaudhuri joins Forbes Global Properties as an Honorary Advisor with the designation of Distinguished Economic Fellow - India Real Estate Trends & Macro Economic Strategies. He brings to the team extensive knowledge of the Real Estate sector having authored India\'s first ever Real Estate Bible, Star Realty which was launched by the then Union Minister of Urban Development, Shri Kamal Nath in the presence of industry stalwarts like Harshvardhan Neotia, Navin Ansal, Raseel Gujral Ansal, Shabnam Singhal, Vidya Basarkod amongst others. An outspoken proponent of Antitheism, Science & Rationale, Public Health & Longevity, and Happy Capitalism; Dr. Arindam Chaudhuri is a Harvard Stanford Certified Longevity & Lifestyle Medicine Advocate. He is the Disruptor who made IIPM the largest B-School on EARTH, a Former Advisor to Planning Commission of India on Education & Social Sector & a 3rd Dan BlackBelt in Kick Boxing. Arindam holds a PhD in Leadership from University of Buckingham, Masters in Economics from Madras University, PGDPM & HDIE from IIPM & 40+ certificates in Longevity Science, Public Health and Preventive Healthcare from World\'s leading institutions. He was the Honorary Director of IIPM Think Tank & teaches Leadership, Humanity & Economic Planning. His public seminars are a rage, with thousands attending. He has been invited to speak at Harvard Business School, Imperial College, Chinese University of Hong Kong, IIT etc and has trained the top leadership at Indian Army, CRPF, BSF, CISF, ITBP, Delhi Police & Civil Services Officers of the IAS & IFS With 10 million+ fans, across his the various personal and group social media handles Arindam is the world\'s most followed management icon & economist. He is the author of #1 monster best-sellers Count Your Chickens Before They Hatch & Discover The Diamond in You. He is also the author of 2047, What Marx Left Unsaid, Beyond God & Capitalism, Planning India, & the #1 best-selling books- The Great Indian Dream, Thorns To Competition & Cult In 2007 his film Dosor got selected at CANNES. Out of his 9 films, he won National Awards for three of them-- FALTU starring Soumitro Chatterjee, The Last Lear starring Amitabh Bachchan & Priety Zinta & Do Dooni Chaar, the comeback film of the golden onscreen pair of Rishi Kapoor & Neetu Singh. He also organised three editions of the World\'s Largest B-School Quiz with Shah Rukh Khan as the Quiz Master and in 2017, he started the Power Brands Bollywood Film Journalist\'s Awards-the first honest & transparent awards in Bollywood based on open ballot voting by the leading film critics of India. A passionate Media Personality, he is the Editor-in-Chief of DailyIndian.com (a part of Planman Group he founded in 1995),The Sunday Indian, Business & Economy,4Ps Business & Marketing and The Human Factor. He has been a columnist with about two dozen papers in India. Since 2001 he has been presenting an Alternative Budget on TV. In 2000 he founded Aurobindo Chaudhuri Memorial Great Indian Dream Foundation. Sachin Tendulkar has in past supported GIDF. Arindam currently tours across the world taking workshops on his unique concept of NECTAR to promote Longevity Science amongst masses. His lifelong vision & work has focused towards eradication of Religion, Income Inequality & Gender Discrimination; & champion a new order with Equal Access to Health, Education & Justice.'
+    },
+    {
+        name: 'DGP Sanjay Kumar',
+        image: 'img/advisor/advisor8.jpg',
+        designation: '',
+        content: `Shri Sanjay Kumar, a 1985 batch Indian Police Service (IPS) officer of the Himachal Pradesh cadre, is a distinguished former senior police leader with more than three decades of service in law enforcement, internal security, vigilance, and disaster management at both state and national levels.<br><br>
+An alumnus of the University of Delhi, he holds a Master’s degree in Physics (Electronics specialization) and was a National Science Talent Search Scholar. His strong academic and analytical background laid the foundation for a career marked by strategic leadership and operational excellence.<br><br>
+During his service, Shri Sanjay Kumar held several key leadership positions, including Director General of the National Disaster Response Force, Director General of Police, Himachal Pradesh, and senior roles in central organizations such as CISF, the Department of Space, and the Railway Protection Force. He played a critical role in strengthening institutional frameworks related to disaster response, internal security, police training, and vigilance.<br><br>
+A strong advocate of professional capacity building, he was instrumental in establishing the Himachal Pradesh Institute of Police Studies (HPIPS) in collaboration with Himachal Pradesh University, promoting higher education and research in policing and security studies. As a field officer, he successfully led campaigns against narcotics and organized crime while ensuring robust law and order even during periods of heightened regional security challenges.<br><br>
+Shri Sanjay Kumar has represented India at several international platforms and has undergone advanced professional training, including at the FBI Academy, Virginia (USA). His exemplary service has been recognized with prestigious honors such as the President’s Police Medal for Distinguished Service, Police Medal for Meritorious Service, and the NDRF Medal for outstanding contribution to disaster management.<br><br>
+He superannuated in January 2019, leaving behind a legacy of integrity, leadership, and commitment to national service.`
+    },
+    {
+        name: 'Rakesh Kumar Jain',
+        image: 'img/advisor/advisor3.jpg',
+        designation: '',
+        content: `With a career spanning three decades, Rakesh has held key positions in India’s premier real estate companies like Ansals, SuperTech, Essel Realty, and Wave Infratech as the CEO and Executive Director. He has successfully set up and steered strategic real estate projects including townships, SEZs, commercial and residential portfolios, IT Parks, malls, and multiplexes. He has advised several senior-level boards at Unitech, Omaxe, Vatika, Group, Aerens in managing complex business situations, influencing internal and external stakeholders. He has driven multi-million-dollar projects, with a focus on strategic acquisitions, and legal and commercial success.<br><br>
+Expertise includes:<br>
+&bull; Large Portfolio Management &amp; Risk Mitigation<br>
+&bull; Project Design, Estimating &amp; Global Financing<br>
+&bull; Mergers, Acquisitions, Joint Ventures &amp; Alliances<br>
+&bull; Re-engineering Operations &amp; Process Improvements<br>
+&bull; Operating / Capital Budgeting &amp; Strategic Planning<br>
+&bull; Investment Analysis &amp; Multi-Cultural Negotiations<br>
+&bull; Space Requirement Analysis &amp; Improving Asset Value<br>
+&bull; Corporate Reorganizations &amp; Turnaround Management<br>
+&bull; Cost Containment/Reduction &amp; Profit Enhancement`
+    },
+    {
+        name: 'Rajiv K Anand',
+        image: 'img/advisor/advisor2.jpg',
+        designation: 'Executive Director – Forbes Global Properties India',
+        content: `Rajiv K. Anand serves as Executive Director, bringing nearly three decades of experience across real estate development, capital advisory, and cross-border transactions. Trained as a civil engineer, he combines strong technical expertise with deep commercial acumen, contributing to the evaluation and advancement of complex real estate initiatives across India and select international markets.<br><br>
+Rajiv provides strategic oversight and institutional guidance, supporting capital structuring, risk assessment, and governance frameworks. Known for his measured judgment and market insight, he engages with partners and stakeholders to help shape opportunities grounded in financial discipline, structural integrity, and long-term sustainable value creation.`
+    },
+    {
+        name: 'Subhal Garg',
+        image: 'img/advisor/advisor4.jpg',
+        designation: 'Executive Director - FGP India',
+        content: `Subhal Garg leads Forbes Global Properties in India, overseeing the development of an institutionally driven real estate platform aligned with Forbes’ global standards of credibility, governance, and excellence. He is responsible for market strategy, partnerships, and the structuring of scalable real estate initiatives across India, and works closely with the global leadership of Forbes Global Properties to translate global principles into India-specific strategies and market-relevant frameworks.<br><br>
+A Chartered Accountant by training, Subhal brings over two decades of experience across finance, banking, infrastructure, and real estate. He works with developers, landowners, institutional investors, and family offices to structure transactions, align capital, and position real estate assets for long-term, sustainable value creation, with a strong emphasis on financial discipline, institutional governance, and execution excellence.`
+    },
+    {
+        name: 'Vishal Sahni',
+        image: 'img/advisor/advisor1.jpg',
+        designation: 'Senior Vice President - Business Development',
+        content: `With over three decades of professional exposure across real estate, telecom, and strategic sales leadership, he is recognized as a market expansion specialist and high-value transaction expert. He has held key leadership and mediation roles with prominent real estate groups including Saya Group, Ansals, Omaxe, Raheja, Supertech, and Group Lodha. His expertise is in sales and positioning of large-scale townships, residential and commercial developments, IT parks, malls, and multiplexes, driving sustained revenue growth and strong market dominance.<br><br>
+His main focus is on Ultra High Networth Individuals (UHNI) and specializes in high-value luxury residential and commercial transactions across marquee developments. He also leads international real estate sales across Dubai, Singapore, and the USA, working with global luxury developers including DAMAC, Sobha, Emaar, BnW, and Danube. His international client base, particularly, is built through structured global exhibitions, targeted lead generation, and investor-focused outreach.<br><br>
+<strong>Core Expertise</strong><br>
+&bull; UHNI &amp; HNI Client Advisory and Consulting<br>
+&bull; High-Value &amp; Bulk Real Estate Deal Structuring<br>
+&bull; Strategic Sales Leadership &amp; Market Expansion<br>
+&bull; Large Real Estate Portfolio Management`
+    }
+];
+
+let advisorSwiper = null;
+
+// Function to update advisor content
+function updateAdvisorContent(index) {
+    const advisor = advisorsData[index];
+    if (!advisor) return;
+
+    const contentText = document.getElementById('advisor-content-text');
+    const contentImage = document.getElementById('advisor-content-image');
+    const contentName = document.getElementById('advisor-content-name');
+    const contentDesignation = document.getElementById('advisor-content-designation');
+
+    if (contentText) contentText.innerHTML = advisor.content;
+    if (contentImage) contentImage.src = advisor.image;
+    if (contentImage) contentImage.alt = advisor.name;
+    if (contentName) contentName.textContent = advisor.name;
+    if (contentDesignation) {
+        contentDesignation.textContent = advisor.designation || '';
+        contentDesignation.style.display = advisor.designation ? 'block' : 'none';
+    }
+
+    // Update active tab indicator
+    const allTabs = document.querySelectorAll('.advisor-tab-card');
+    const allIndicators = document.querySelectorAll('.advisor-tab-indicator');
+
+    allTabs.forEach(tab => tab.classList.remove('active-advisor-tab'));
+    allIndicators.forEach(indicator => indicator.classList.add('hidden'));
+
+    const activeTab = document.querySelector(`[data-advisor-index="${index}"]`);
+    if (activeTab) {
+        activeTab.classList.add('active-advisor-tab');
+        const indicator = activeTab.querySelector('.advisor-tab-indicator');
+        if (indicator) indicator.classList.remove('hidden');
+    }
+}
+
+// Initialize Advisors Swiper
+function initAdvisorsSwiper() {
+    const swiperElement = document.querySelector('.advisor-swiper');
+    if (!swiperElement || typeof Swiper === 'undefined') {
+        console.warn('Swiper not available or element not found');
+        return;
+    }
+
+    // Verify navigation buttons exist
+    const nextBtn = document.querySelector('.advisor-swiper-button-next');
+    const prevBtn = document.querySelector('.advisor-swiper-button-prev');
+    if (!nextBtn || !prevBtn) {
+        console.warn('Navigation buttons not found');
+    }
+
+    advisorSwiper = new Swiper('.advisor-swiper', {
+        slidesPerView: 5,
+        spaceBetween: 24,
+        loop: true,
+        autoplay: {
+            delay: 5000,
+            disableOnInteraction: false,
+        },
+        navigation: {
+            nextEl: '.advisor-swiper-button-next',
+            prevEl: '.advisor-swiper-button-prev',
+        },
+        breakpoints: {
+            0: {
+                slidesPerView: 1,
+                spaceBetween: 16,
+            },
+            640: {
+                slidesPerView: 2,
+                spaceBetween: 20,
+            },
+            768: {
+                slidesPerView: 3,
+                spaceBetween: 24,
+            },
+            1024: {
+                slidesPerView: 4,
+                spaceBetween: 24,
+            },
+            1280: {
+                slidesPerView: 5,
+                spaceBetween: 24,
+            },
+        },
+    });
+
+    // Initialize first content
+    updateAdvisorContent(0);
+    const firstTab = document.querySelector('[data-advisor-index="0"]');
+    if (firstTab) {
+        firstTab.classList.add('active-advisor-tab');
+        const indicator = firstTab.querySelector('.advisor-tab-indicator');
+        if (indicator) indicator.classList.remove('hidden');
+    }
+
+    // Add click event listeners to advisor cards
+    const advisorCards = document.querySelectorAll('.advisor-tab-card');
+    advisorCards.forEach((card, index) => {
+        card.addEventListener('click', () => {
+            if (advisorSwiper) {
+                // Use slideToLoop for loop mode
+                advisorSwiper.slideToLoop(index);
+                updateAdvisorContent(index);
+            }
+        });
+    });
+
+    // Update content on slide change
+    advisorSwiper.on('slideChange', function () {
+        const realIndex = this.realIndex;
+        updateAdvisorContent(realIndex);
+
+        // Update active tab indicators
+        const allTabs = document.querySelectorAll('.advisor-tab-card');
+        const allIndicators = document.querySelectorAll('.advisor-tab-indicator');
+
+        allTabs.forEach(tab => tab.classList.remove('active-advisor-tab'));
+        allIndicators.forEach(indicator => indicator.classList.add('hidden'));
+
+        const activeTab = document.querySelector(`[data-advisor-index="${realIndex}"]`);
+        if (activeTab) {
+            activeTab.classList.add('active-advisor-tab');
+            const indicator = activeTab.querySelector('.advisor-tab-indicator');
+            if (indicator) indicator.classList.remove('hidden');
+        }
+    });
+}
+
+// Initialize advisors swiper when DOM is ready and Swiper is loaded
+function initAdvisorsSwiperOnReady() {
+    if (typeof Swiper !== 'undefined') {
+        // Destroy existing swiper if any
+        if (advisorSwiper) {
+            advisorSwiper.destroy(true, true);
+            advisorSwiper = null;
+        }
+        initAdvisorsSwiper();
+    } else {
+        // Wait for Swiper to load
+        setTimeout(initAdvisorsSwiperOnReady, 100);
+    }
+}
+
+// Initialize advisors swiper on page load
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        setTimeout(initAdvisorsSwiperOnReady, 500);
+    });
+} else {
+    setTimeout(initAdvisorsSwiperOnReady, 500);
+}
+
+// Also try on window load as fallback
+window.addEventListener('load', () => {
+    if (!advisorSwiper && typeof Swiper !== 'undefined') {
+        setTimeout(() => {
+            initAdvisorsSwiper();
+        }, 300);
+    }
 });
